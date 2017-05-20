@@ -25,14 +25,12 @@ public class BenrippoiUtil {
      *
      * @param fileName Excelファイル名。拡張子で読み込むフォーマットが決まります
      * @return Excel Workbook
+     * @throws IOException            ファイルがない場合等
+     * @throws InvalidFormatException フォーマットの例外
      */
-    public static Optional<Workbook> open(String fileName) {
-        try {
-            InputStream is = Files.newInputStream(Paths.get(fileName));
-            return open(is);
-        } catch (IOException e) {
-            return Optional.empty();
-        }
+    public static Workbook open(String fileName) throws IOException, InvalidFormatException {
+        InputStream is = Files.newInputStream(Paths.get(fileName));
+        return open(is);
     }
 
     /**
@@ -40,14 +38,11 @@ public class BenrippoiUtil {
      *
      * @param is ExcelファイルのInputStream
      * @return Excel Workbook
+     * @throws IOException            ファイルがない場合等
+     * @throws InvalidFormatException フォーマットの例外
      */
-    public static Optional<Workbook> open(InputStream is) {
-        Objects.requireNonNull(is, "InputStreamにnullは許可されていません");
-        try (Workbook wb = WorkbookFactory.create(is)) {
-            return Optional.of(wb);
-        } catch (IOException | EncryptedDocumentException | InvalidFormatException e) {
-            return Optional.empty();
-        }
+    public static Workbook open(InputStream is) throws IOException, InvalidFormatException {
+        return WorkbookFactory.create(is);
     }
 
     /**

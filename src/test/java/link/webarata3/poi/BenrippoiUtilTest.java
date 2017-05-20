@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.util.Optional;
 
@@ -18,21 +19,15 @@ public class BenrippoiUtilTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
-    private Optional<Workbook> getOptionalWorkbook(String fileName) throws Exception {
+    private Workbook getWorkbook(String fileName) throws Exception {
         File tempFile = new File(tempFolder.getRoot(), "temp.xlsx");
         Files.copy(this.getClass().getResourceAsStream(fileName), tempFile.toPath());
-        return BenrippoiUtil.open(Files.newInputStream(tempFile.toPath()));
-    }
-
-    private Workbook getWorkbook(String fileName) throws Exception {
-        return getOptionalWorkbook(fileName).get();
+        return BenrippoiUtil.open(new FileInputStream(tempFile));
     }
 
     @Test
     public void openTest() throws Exception {
-        Optional<Workbook> optionalWb = getOptionalWorkbook("book1.xlsx");
-        assertThat(optionalWb.isPresent(), is(true));
-        Workbook wb = optionalWb.get();
+        Workbook wb = getWorkbook("book1.xlsx");
         wb.close();
     }
 
