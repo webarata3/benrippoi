@@ -40,7 +40,7 @@ artifacts {
 
 // JUnit
 // task test
-// レポート build/test-results/test/TEST-link.webarata3.poi.BenrippoiUtilTest.xml
+// レポート build/test-results/test/*.xml
 
 // カバレッジ
 // JaCoCo plugin
