@@ -1,6 +1,0 @@
-GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-benrippoi,link.webarata3.poi,WrapperCell,21,0,0,0,7,0,3,0,3,0
-benrippoi,link.webarata3.poi,WrapperSheet,26,0,0,0,6,0,4,0,4,0
-benrippoi,link.webarata3.poi,BenrippoiUtil.new Object() {...},5,35,0,0,0,1,0,1,0,1
-benrippoi,link.webarata3.poi,PoiIllegalAccessException,23,0,0,0,10,0,5,0,5,0
-benrippoi,link.webarata3.poi,BenrippoiUtil,234,143,35,6,53,22,35,9,9,8
