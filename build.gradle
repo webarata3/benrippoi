@@ -38,6 +38,10 @@ artifacts {
     archives javadocJar
 }
 
+// JUnit
+// task test
+// レポート build/test-results/test/TEST-link.webarata3.poi.BenrippoiUtilTest.xml
+
 // カバレッジ
 // JaCoCo plugin
 // task jacocoTestReport
@@ -54,4 +58,5 @@ jacocoTestReport {
 // FindBugs
 // FindBugs plugin
 // task findbugsMain
+// レポート build/reports/findbugs/main.xml
 apply plugin: 'findbugs'
