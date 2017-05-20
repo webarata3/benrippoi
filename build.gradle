@@ -37,3 +37,16 @@ artifacts {
     archives sourcesJar
     archives javadocJar
 }
+
+// カバレッジ
+// JaCoCo plugin
+// task jacocoTestReport
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = true
+    }
+}

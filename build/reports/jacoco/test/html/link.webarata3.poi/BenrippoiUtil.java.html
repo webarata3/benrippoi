@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="ja"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BenrippoiUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">benrippoi</a> &gt; <a href="index.source.html" class="el_package">link.webarata3.poi</a> &gt; <span class="el_source">BenrippoiUtil.java</span></div><h1>BenrippoiUtil.java</h1><pre class="source lang-java linenums">package link.webarata3.poi;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
+
+/**
+ * Apache POIのラッパークラスです。
+ *
+ * @author webarata3
+ */
+<span class="nc" id="L22">public class BenrippoiUtil {</span>
+    public static Optional&lt;Workbook&gt; open(String fileName) {
+        try {
+<span class="nc" id="L25">            InputStream is = Files.newInputStream(Paths.get(fileName));</span>
+<span class="nc" id="L26">            return open(is);</span>
+<span class="nc" id="L27">        } catch (IOException e) {</span>
+<span class="nc" id="L28">            return Optional.empty();</span>
+        }
+    }
+
+    public static Optional&lt;Workbook&gt; open(InputStream is) {
+<span class="fc" id="L33">        Objects.requireNonNull(is, &quot;InputStreamにnullは許可されていません&quot;);</span>
+<span class="pc" id="L34">        try (Workbook wb = WorkbookFactory.create(is)) {</span>
+<span class="fc" id="L35">            return Optional.of(wb);</span>
+<span class="pc bpc" id="L36" title="6 of 8 branches missed.">        } catch (IOException | EncryptedDocumentException | InvalidFormatException e) {</span>
+<span class="nc" id="L37">            return Optional.empty();</span>
+        }
+    }
+
+    public static String cellIndexToCellLabel(int x, int y) {
+<span class="fc" id="L42">        String cellName = dec26(x, 0);</span>
+<span class="fc" id="L43">        return cellName + (y + 1);</span>
+    }
+
+    private static String dec26(int num, int first) {
+<span class="fc bfc" id="L47" title="All 2 branches covered.">        return (num &gt; 25 ? dec26(num / 26, 1) : &quot;&quot;) + String.valueOf((char) ('A' + (num - first) % 26));</span>
+    }
+
+    public static Cell getCell(Sheet sheet, String cellLabel) {
+<span class="fc" id="L51">        Pattern p1 = Pattern.compile(&quot;([a-zA-Z]+)([0-9]+)&quot;);</span>
+<span class="fc" id="L52">        Matcher matcher = p1.matcher(cellLabel);</span>
+<span class="fc" id="L53">        matcher.find();</span>
+
+<span class="fc" id="L55">        String reverseString = new StringBuilder(matcher.group(1).toUpperCase()).reverse().toString();</span>
+<span class="fc" id="L56">        int x = IntStream.range(0, reverseString.length()).map((i) -&gt; {</span>
+<span class="fc" id="L57">            int delta = reverseString.charAt(i) - 'A' + 1;</span>
+<span class="fc" id="L58">            return delta * (int) Math.pow(26.0, (double) i);</span>
+<span class="fc" id="L59">        }).reduce(-1, (v1, v2) -&gt; v1 + v2);</span>
+
+<span class="fc" id="L61">        return getCell(sheet, x, Integer.parseInt(matcher.group(2)) - 1);</span>
+    }
+
+    public static Row getRow(Sheet sheet, int n) {
+<span class="nc" id="L65">        Row row = sheet.getRow(n);</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (row != null) {</span>
+<span class="nc" id="L67">            return row;</span>
+        }
+<span class="nc" id="L69">        return sheet.createRow(n);</span>
+    }
+
+    public static Cell getCell(Sheet sheet, int x, int y) {
+<span class="fc" id="L73">        Row row = sheet.getRow(y);</span>
+<span class="fc" id="L74">        Cell cell = row.getCell(x);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        if (cell != null) {</span>
+<span class="fc" id="L76">            return cell;</span>
+        }
+<span class="nc" id="L78">        return row.createCell(x, CellType.BLANK);</span>
+    }
+
+    public static String normalizeNumericString(double numeric) {
+        // 44.0のような数値を44として取得するために、入力された数値と小数点以下を切り捨てた数値が
+        // 一致した場合には、intにキャストして、小数点以下が表示されないようにしている
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        if (numeric == Math.ceil(numeric)) {</span>
+<span class="nc" id="L85">            return String.valueOf((int) numeric);</span>
+        }
+<span class="nc" id="L87">        return String.valueOf(numeric);</span>
+    }
+
+    public static CellValue getFomulaCellValue(Cell cell) {
+<span class="nc" id="L91">        Workbook wb = cell.getSheet().getWorkbook();</span>
+<span class="nc" id="L92">        CreationHelper helper = wb.getCreationHelper();</span>
+<span class="nc" id="L93">        FormulaEvaluator evaluator = helper.createFormulaEvaluator();</span>
+<span class="nc" id="L94">        return evaluator.evaluate(cell);</span>
+    }
+
+    public static String cellToString(Cell cell) {
+<span class="pc bpc" id="L98" title="5 of 6 branches missed.">        switch (cell.getCellTypeEnum()) {</span>
+            case STRING:
+<span class="fc" id="L100">                return cell.getStringCellValue();</span>
+            case NUMERIC:
+<span class="nc" id="L102">                return normalizeNumericString(cell.getNumericCellValue());</span>
+            case BOOLEAN:
+<span class="nc" id="L104">                return String.valueOf(cell.getBooleanCellValue());</span>
+            case BLANK:
+<span class="nc" id="L106">                return &quot;&quot;;</span>
+            case FORMULA:
+<span class="nc" id="L108">                CellValue cellValue = getFomulaCellValue(cell);</span>
+<span class="pc bnc" id="L109" title="All 5 branches missed.">                switch (cellValue.getCellTypeEnum()) {</span>
+                    case STRING:
+<span class="nc" id="L111">                        return cellValue.getStringValue();</span>
+                    case NUMERIC:
+<span class="nc" id="L113">                        return normalizeNumericString(cellValue.getNumberValue());</span>
+                    case BOOLEAN:
+<span class="nc" id="L115">                        return String.valueOf(cellValue.getBooleanValue());</span>
+                    case BLANK:
+<span class="nc" id="L117">                        return &quot;&quot;;</span>
+                    default: // _NONE, ERROR
+<span class="nc" id="L119">                        throw new PoiIllegalAccessException(&quot;cellはStringに変換できません&quot;);</span>
+                }
+            default: // _NONE, ERROR
+<span class="nc" id="L122">                throw new PoiIllegalAccessException(&quot;cellはStringに変換できません&quot;);</span>
+        }
+    }
+
+    private static int stringToInt(String value) {
+        try {
+<span class="nc" id="L128">            return (int) Double.parseDouble(value);</span>
+<span class="nc" id="L129">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L130">            throw new IllegalStateException(&quot;cellはintに変換できません&quot;);</span>
+        }
+    }
+
+    public static int cellToInt(Cell cell) {
+<span class="nc bnc" id="L135" title="All 4 branches missed.">        switch (cell.getCellTypeEnum()) {</span>
+            case STRING:
+<span class="nc" id="L137">                return stringToInt(cell.getStringCellValue());</span>
+            case NUMERIC:
+<span class="nc" id="L139">                return (int) cell.getNumericCellValue();</span>
+            case FORMULA:
+<span class="nc" id="L141">                CellValue cellValue = getFomulaCellValue(cell);</span>
+<span class="nc bnc" id="L142" title="All 3 branches missed.">                switch (cellValue.getCellTypeEnum()) {</span>
+                    case STRING:
+<span class="nc" id="L144">                        return stringToInt(cellValue.getStringValue());</span>
+                    case NUMERIC:
+<span class="nc" id="L146">                        return (int) cellValue.getNumberValue();</span>
+                    default:
+<span class="nc" id="L148">                        throw new PoiIllegalAccessException(&quot;cellはintに変換できません&quot;);</span>
+                }
+            default:
+<span class="nc" id="L151">                throw new PoiIllegalAccessException(&quot;cellはintに変換できません&quot;);</span>
+        }
+    }
+
+    private static double stringToDouble(String value) {
+        try {
+<span class="nc" id="L157">            return Double.parseDouble(value);</span>
+<span class="nc" id="L158">        } catch (NumberFormatException e) {</span>
+<span class="nc" id="L159">            throw new PoiIllegalAccessException(&quot;cellはdoubleに変換できません&quot;);</span>
+        }
+    }
+
+    public static double cellToDouble(Cell cell) {
+<span class="nc bnc" id="L164" title="All 4 branches missed.">        switch(cell.getCellTypeEnum()) {</span>
+            case STRING:
+<span class="nc" id="L166">                return stringToDouble(cell.getStringCellValue());</span>
+            case NUMERIC:
+<span class="nc" id="L168">                return cell.getNumericCellValue();</span>
+            case FORMULA:
+<span class="nc" id="L170">                CellValue cellValue = getFomulaCellValue(cell);</span>
+<span class="nc bnc" id="L171" title="All 3 branches missed.">                switch(cellValue.getCellTypeEnum()) {</span>
+                    case STRING:
+<span class="nc" id="L173">                        return stringToDouble(cell.getStringCellValue());</span>
+                    case NUMERIC:
+<span class="nc" id="L175">                        return cell.getNumericCellValue();</span>
+                    default:
+<span class="nc" id="L177">                        throw new PoiIllegalAccessException(&quot;cellはdoubleに変換できません&quot;);</span>
+                }
+            default:
+<span class="nc" id="L180">                throw new PoiIllegalAccessException(&quot;cellはdoubleに変換できません&quot;);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.8.201612092310</span></div></body></html>
