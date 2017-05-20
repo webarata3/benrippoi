@@ -57,6 +57,6 @@ jacocoTestReport {
 
 // FindBugs
 // FindBugs plugin
-// task findbugsMain
+// task check
 // レポート build/reports/findbugs/main.xml
 apply plugin: 'findbugs'

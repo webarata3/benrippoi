@@ -22,7 +22,6 @@ import java.util.stream.IntStream;
 public class BenrippoiUtil {
     public void test() {
         String a = null;
-        a.concat("test");
     }
 
     public static Optional<Workbook> open(String fileName) {
