@@ -21,9 +21,8 @@ import java.util.stream.IntStream;
  */
 public class BenrippoiUtil {
     public void test() {
-        String a;
-        int b ;
-
+        String a =null;
+        int b = a.length();
     }
 
     public static Optional<Workbook> open(String fileName) {
