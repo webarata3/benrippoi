@@ -1,5 +1,7 @@
 package link.webarata3.poi;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,10 +13,10 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 @RunWith(Enclosed.class)
@@ -83,6 +85,54 @@ public class BenrippoiUtilTest {
         @Theory
         public void test(Fixture fixture) {
             assertThat(fixture.toString(), BenrippoiUtil.cellIndexToCellLabel(fixture.x, fixture.y), is(fixture.cellLabel));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class GetCellByCellLabelTest {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture(0, 0, "A1"),
+            new Fixture(1, 0, "B1"),
+            new Fixture(2, 0, "C1"),
+            new Fixture(26, 0, "AA1"),
+            new Fixture(27, 0, "AB1"),
+            new Fixture(28, 0, "AC1")
+        };
+
+        static class Fixture {
+            int x;
+            int y;
+            String cellLabel;
+
+            Fixture(int x, int y, String cellLabel) {
+                this.x = x;
+                this.y = y;
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = BenrippoiUtil.open(this.getClass().getResourceAsStream("book1.xlsx"));
+            Sheet sheet = wb.getSheetAt(0);
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+            assertThat(fixture.toString(), cell.getAddress().getColumn(), is(fixture.x));
+            assertThat(fixture.toString(), cell.getAddress().getRow(), is(fixture.y));
         }
     }
 }
