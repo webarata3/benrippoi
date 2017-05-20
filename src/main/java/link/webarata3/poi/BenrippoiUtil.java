@@ -20,11 +20,6 @@ import java.util.stream.IntStream;
  * @author webarata3
  */
 public class BenrippoiUtil {
-    public void test() {
-        String a =null;
-        int b = a.length();
-    }
-
     public static Optional<Workbook> open(String fileName) {
         try {
             InputStream is = Files.newInputStream(Paths.get(fileName));
