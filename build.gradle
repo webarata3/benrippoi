@@ -60,3 +60,7 @@ jacocoTestReport {
 // task check
 // レポート build/reports/findbugs/main.xml
 apply plugin: 'findbugs'
+
+findbugs {
+    ignoreFailures = true
+}
