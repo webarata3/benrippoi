@@ -1,52 +1,88 @@
 package link.webarata3.poi;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.experimental.runners.Enclosed;
+import org.junit.experimental.theories.DataPoints;
+import org.junit.experimental.theories.Theories;
+import org.junit.experimental.theories.Theory;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.file.Files;
-import java.util.Optional;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+@RunWith(Enclosed.class)
 public class BenrippoiUtilTest {
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
-
-    private Workbook getWorkbook(String fileName) throws Exception {
+    private static File getTempWorkbookFile(TemporaryFolder tempFolder, String fileName) throws Exception {
         File tempFile = new File(tempFolder.getRoot(), "temp.xlsx");
-        Files.copy(this.getClass().getResourceAsStream(fileName), tempFile.toPath());
-        return BenrippoiUtil.open(new FileInputStream(tempFile));
+        Files.copy(BenrippoiUtil.class.getResourceAsStream(fileName), tempFile.toPath());
+
+        return tempFile;
     }
 
-    @Test
-    public void openTest() throws Exception {
-        Workbook wb = getWorkbook("book1.xlsx");
-        wb.close();
+    private static Workbook getTempWorkbook(TemporaryFolder tempFolder, String fileName) throws Exception {
+        File tempFile = getTempWorkbookFile(tempFolder, fileName);
+        return BenrippoiUtil.open(Files.newInputStream(tempFile.toPath()));
     }
 
-    @Test
-    public void cellIndexToCellNameTest() {
-        assertThat(BenrippoiUtil.cellIndexToCellLabel(0, 0), is("A1"));
-        assertThat(BenrippoiUtil.cellIndexToCellLabel(1, 0), is("B1"));
-        assertThat(BenrippoiUtil.cellIndexToCellLabel(2, 0), is("C1"));
-        assertThat(BenrippoiUtil.cellIndexToCellLabel(26, 0), is("AA1"));
-        assertThat(BenrippoiUtil.cellIndexToCellLabel(27, 0), is("AB1"));
-        assertThat(BenrippoiUtil.cellIndexToCellLabel(28, 0), is("AC1"));
+    public static class GetWorkbookTest {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @Test
+        public void openFileNameTest() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            wb.close();
+        }
+
+        public void openInputStreamTest() throws Exception {
+            File file = getTempWorkbookFile(tempFolder, "book1.xlsx");
+            Workbook sb = BenrippoiUtil.open(Files.newInputStream(file.toPath()));
+        }
     }
 
-    @Test
-    public void test() throws Exception {
-        Workbook wb = getWorkbook("book1.xlsx");
-        Sheet sheet = wb.getSheet("Sheet1");
-        Cell cell = BenrippoiUtil.getCell(sheet, "B1");
-        System.out.println(BenrippoiUtil.cellToString(cell));
-        System.out.println(cell.getStringCellValue());
+    @RunWith(Theories.class)
+    public static class CellIndexToCellLabelTest {
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture(0, 0, "A1"),
+            new Fixture(1, 0, "B1"),
+            new Fixture(2, 0, "C1"),
+            new Fixture(26, 0, "AA1"),
+            new Fixture(27, 0, "AB1"),
+            new Fixture(28, 0, "AC1")
+        };
+
+        static class Fixture {
+            int x;
+            int y;
+            String cellLabel;
+
+            Fixture(int x, int y, String cellLabel) {
+                this.x = x;
+                this.y = y;
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    ", cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) {
+            assertThat(fixture.toString(), BenrippoiUtil.cellIndexToCellLabel(fixture.x, fixture.y), is(fixture.cellLabel));
+        }
     }
 }
