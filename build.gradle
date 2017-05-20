@@ -50,3 +50,7 @@ jacocoTestReport {
         csv.enabled = true
     }
 }
+
+// FindBugs
+// FindBugs plugin
+apply plugin: 'findbugs'
