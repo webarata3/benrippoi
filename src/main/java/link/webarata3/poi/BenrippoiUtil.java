@@ -20,6 +20,11 @@ import java.util.stream.IntStream;
  * @author webarata3
  */
 public class BenrippoiUtil {
+    public void test() {
+        String a = null;
+        a.concat("test");
+    }
+
     public static Optional<Workbook> open(String fileName) {
         try {
             InputStream is = Files.newInputStream(Paths.get(fileName));
@@ -50,7 +55,6 @@ public class BenrippoiUtil {
     public static Cell getCell(Sheet sheet, String cellLabel) {
         Pattern p1 = Pattern.compile("([a-zA-Z]+)([0-9]+)");
         Matcher matcher = p1.matcher(cellLabel);
-        matcher = null;
         matcher.find();
 
         String reverseString = new StringBuilder(matcher.group(1).toUpperCase()).reverse().toString();
