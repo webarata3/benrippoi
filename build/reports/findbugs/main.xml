@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="3.0.1" sequence="0" timestamp="1495258992569" analysisTimestamp="1495258992617" release="">
+  <Project projectName="">
+    <Jar>/Users/arata/Dropbox/dev/ij/benrippoi/build/classes/main/link/webarata3/poi/BenrippoiUtil$1.class</Jar>
+    <Jar>/Users/arata/Dropbox/dev/ij/benrippoi/build/classes/main/link/webarata3/poi/BenrippoiUtil.class</Jar>
+    <Jar>/Users/arata/Dropbox/dev/ij/benrippoi/build/classes/main/link/webarata3/poi/PoiIllegalAccessException.class</Jar>
+    <Jar>/Users/arata/Dropbox/dev/ij/benrippoi/build/classes/main/link/webarata3/poi/WrapperCell.class</Jar>
+    <Jar>/Users/arata/Dropbox/dev/ij/benrippoi/build/classes/main/link/webarata3/poi/WrapperSheet.class</Jar>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml/3.16/76e20fe22404cc4da55ddfdaaaadee32bbfa3bdd/poi-ooxml-3.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi/3.16/ad21c123ee5d6b5b2a8f0d4ed23b3ffe6759a889/poi-3.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/org.apache.poi/poi-ooxml-schemas/3.16/9828a49307fc6bebfd42185b677d88b6e4994c63/poi-ooxml-schemas-3.16.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/com.github.virtuald/curvesapi/1.04/3386abf821719bc89c7685f9eaafaf4a842f0199/curvesapi-1.04.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/commons-codec/commons-codec/1.10/4b95f4897fa13f2cd904aee711aeafc0c5295cd8/commons-codec-1.10.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-collections4/4.1/a4cf4688fe1c7e3a63aa636cc96d013af537768e/commons-collections4-4.1.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/org.apache.xmlbeans/xmlbeans/2.6.0/29e80d2dd51f9dcdef8f9ffaee0d4dc1c9bbfc87/xmlbeans-2.6.0.jar</AuxClasspathEntry>
+    <AuxClasspathEntry>/Users/arata/.gradle/caches/modules-2/files-2.1/stax/stax-api/1.0.1/49c100caf72d658aca8e58bd74a4ba90fa2b0d70/stax-api-1.0.1.jar</AuxClasspathEntry>
+    <SrcDir>/Users/arata/Dropbox/dev/ij/benrippoi/src/main/java/link/webarata3/poi/BenrippoiUtil.java</SrcDir>
+    <SrcDir>/Users/arata/Dropbox/dev/ij/benrippoi/src/main/java/link/webarata3/poi/PoiIllegalAccessException.java</SrcDir>
+    <SrcDir>/Users/arata/Dropbox/dev/ij/benrippoi/src/main/java/link/webarata3/poi/WrapperCell.java</SrcDir>
+    <SrcDir>/Users/arata/Dropbox/dev/ij/benrippoi/src/main/java/link/webarata3/poi/WrapperSheet.java</SrcDir>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Sat, 20 May 2017 14:43:12 +0900" total_classes="5" referenced_classes="72" total_bugs="0" total_size="137" num_packages="1" java_version="1.8.0_112" vm_version="25.112-b16" cpu_seconds="8.86" clock_seconds="4.07" peak_mbytes="118.07" alloc_mbytes="3641.00" gc_seconds="0.07">
+    <PackageStats package="link.webarata3.poi" total_bugs="0" total_types="5" total_size="137">
+      <ClassStats class="link.webarata3.poi.BenrippoiUtil" sourceFile="BenrippoiUtil.java" interface="false" size="93" bugs="0"/>
+      <ClassStats class="link.webarata3.poi.BenrippoiUtil$1" sourceFile="BenrippoiUtil.java" interface="false" size="4" bugs="0"/>
+      <ClassStats class="link.webarata3.poi.PoiIllegalAccessException" sourceFile="PoiIllegalAccessException.java" interface="false" size="16" bugs="0"/>
+      <ClassStats class="link.webarata3.poi.WrapperCell" sourceFile="WrapperCell.java" interface="false" size="12" bugs="0"/>
+      <ClassStats class="link.webarata3.poi.WrapperSheet" sourceFile="WrapperSheet.java" interface="false" size="12" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="566" invocations="727" avgMicrosecondsPerInvocation="778" maxMicrosecondsPerInvocation="45877" standardDeviationMircosecondsPerInvocation="2695"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="202" invocations="72" avgMicrosecondsPerInvocation="2818" maxMicrosecondsPerInvocation="59492" standardDeviationMircosecondsPerInvocation="9118"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="184" invocations="72" avgMicrosecondsPerInvocation="2560" maxMicrosecondsPerInvocation="29670" standardDeviationMircosecondsPerInvocation="5011"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="182" invocations="30" avgMicrosecondsPerInvocation="6078" maxMicrosecondsPerInvocation="165490" standardDeviationMircosecondsPerInvocation="29615"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ConstantDataflowFactory" totalMilliseconds="138" invocations="30" avgMicrosecondsPerInvocation="4606" maxMicrosecondsPerInvocation="110555" standardDeviationMircosecondsPerInvocation="19830"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="126" invocations="226" avgMicrosecondsPerInvocation="557" maxMicrosecondsPerInvocation="12471" standardDeviationMircosecondsPerInvocation="1121"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="125" invocations="110" avgMicrosecondsPerInvocation="1141" maxMicrosecondsPerInvocation="32736" standardDeviationMircosecondsPerInvocation="4433"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="116" invocations="685" avgMicrosecondsPerInvocation="169" maxMicrosecondsPerInvocation="15769" standardDeviationMircosecondsPerInvocation="848"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="114" invocations="731" avgMicrosecondsPerInvocation="156" maxMicrosecondsPerInvocation="22532" standardDeviationMircosecondsPerInvocation="939"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="76" invocations="32" avgMicrosecondsPerInvocation="2403" maxMicrosecondsPerInvocation="35294" standardDeviationMircosecondsPerInvocation="6311"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindUselessObjects" totalMilliseconds="65" invocations="5" avgMicrosecondsPerInvocation="13138" maxMicrosecondsPerInvocation="61184" standardDeviationMircosecondsPerInvocation="24069"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="61" invocations="72" avgMicrosecondsPerInvocation="850" maxMicrosecondsPerInvocation="17309" standardDeviationMircosecondsPerInvocation="2181"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="57" invocations="32" avgMicrosecondsPerInvocation="1802" maxMicrosecondsPerInvocation="19712" standardDeviationMircosecondsPerInvocation="3566"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="57" invocations="30" avgMicrosecondsPerInvocation="1919" maxMicrosecondsPerInvocation="16690" standardDeviationMircosecondsPerInvocation="3347"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.OverridingEqualsNotSymmetrical" totalMilliseconds="52" invocations="72" avgMicrosecondsPerInvocation="733" maxMicrosecondsPerInvocation="22034" standardDeviationMircosecondsPerInvocation="2646"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.CheckRelaxingNullnessAnnotation" totalMilliseconds="51" invocations="5" avgMicrosecondsPerInvocation="10320" maxMicrosecondsPerInvocation="40558" standardDeviationMircosecondsPerInvocation="15514"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="49" invocations="30" avgMicrosecondsPerInvocation="1638" maxMicrosecondsPerInvocation="8717" standardDeviationMircosecondsPerInvocation="1979"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.DumbMethodInvocations" totalMilliseconds="48" invocations="5" avgMicrosecondsPerInvocation="9690" maxMicrosecondsPerInvocation="47583" standardDeviationMircosecondsPerInvocation="18946"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="45" invocations="30" avgMicrosecondsPerInvocation="1526" maxMicrosecondsPerInvocation="9495" standardDeviationMircosecondsPerInvocation="2172"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="45" invocations="30" avgMicrosecondsPerInvocation="1500" maxMicrosecondsPerInvocation="19975" standardDeviationMircosecondsPerInvocation="3547"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>
