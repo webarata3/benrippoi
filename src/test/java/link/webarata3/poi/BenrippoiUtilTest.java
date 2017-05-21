@@ -199,7 +199,6 @@ public class BenrippoiUtilTest {
 
         private Sheet sheet;
 
-
         static class Fixture {
             int x;
             int y;
