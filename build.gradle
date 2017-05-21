@@ -53,7 +53,7 @@ jacocoTestReport {
         xml.enabled = true
         csv.enabled = true
     }
-}
+}}
 
 // FindBugs
 // FindBugs plugin
