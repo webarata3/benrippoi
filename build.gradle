@@ -64,3 +64,16 @@ apply plugin: 'findbugs'
 findbugs {
     ignoreFailures = true
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1'
+    }
+}
+
+apply plugin: 'com.github.kt3k.coveralls'
+

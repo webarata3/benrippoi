@@ -6,4 +6,4 @@ script:
     - ./gradlew test check
 
 after_success:
-    - ./gradlew jacocoTestReport
+    - ./gradlew jacocoTestReport coveralls
