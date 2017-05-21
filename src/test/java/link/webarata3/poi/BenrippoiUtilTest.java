@@ -139,23 +139,47 @@ public class BenrippoiUtilTest {
         }
     }
 
+    @RunWith(Theories.class)
     public static class GetRowByIndex {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture(0),
+            new Fixture(1),
+            new Fixture(2),
+            new Fixture(3),
+            new Fixture(4)
+        };
+
         private Sheet sheet;
 
+
+        static class Fixture {
+            int y;
+
+            Fixture(int y) {
+                this.y = y;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "y=" + y + '}';
+            }
+        }
         @Before
         public void setup() throws Exception {
             Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
             sheet = wb.getSheetAt(0);
         }
 
-        @Test
-        public void getRow0Test() {
-            Row row = sheet.getRow(0);
+        @Theory
+        public void getRow0Test(Fixture fixture) {
+            Row row = sheet.getRow(fixture.y);
             assertThat(row, is(notNullValue()));
-            assertThat(row.getRowNum(), is(0));
+            assertThat(row.getRowNum(), is(fixture.y));
         }
     }
 }
