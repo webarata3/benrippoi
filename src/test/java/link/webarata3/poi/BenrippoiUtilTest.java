@@ -3,6 +3,7 @@ package link.webarata3.poi;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -126,7 +127,7 @@ public class BenrippoiUtilTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = BenrippoiUtil.open(this.getClass().getResourceAsStream("book1.xlsx"));
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
             Sheet sheet = wb.getSheetAt(0);
 
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
