@@ -1,6 +1,5 @@
 package link.webarata3.poi;
 
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
@@ -8,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -62,27 +59,6 @@ public class BenrippoiUtil {
     }
 
     /**
-     * セルのラベル（A1、B2）のセルの取得
-     *
-     * @param sheet     シート
-     * @param cellLabel セルのラベル（A1、B2）
-     * @return Cell
-     */
-    public static Cell getCell(Sheet sheet, String cellLabel) {
-        Pattern p1 = Pattern.compile("([a-zA-Z]+)([0-9]+)");
-        Matcher matcher = p1.matcher(cellLabel);
-        matcher.find();
-
-        String reverseString = new StringBuilder(matcher.group(1).toUpperCase()).reverse().toString();
-        int x = IntStream.range(0, reverseString.length()).map((i) -> {
-            int delta = reverseString.charAt(i) - 'A' + 1;
-            return delta * (int) Math.pow(26.0, (double) i);
-        }).reduce(-1, (v1, v2) -> v1 + v2);
-
-        return getCell(sheet, x, Integer.parseInt(matcher.group(2)) - 1);
-    }
-
-    /**
      * Row（行）の取得
      *
      * @param sheet シート
@@ -112,6 +88,27 @@ public class BenrippoiUtil {
             return cell;
         }
         return row.createCell(x, CellType.BLANK);
+    }
+
+    /**
+     * セルのラベル（A1、B2）のセルの取得
+     *
+     * @param sheet     シート
+     * @param cellLabel セルのラベル（A1、B2）
+     * @return Cell
+     */
+    public static Cell getCell(Sheet sheet, String cellLabel) {
+        Pattern p1 = Pattern.compile("([a-zA-Z]+)([0-9]+)");
+        Matcher matcher = p1.matcher(cellLabel);
+        matcher.find();
+
+        String reverseString = new StringBuilder(matcher.group(1).toUpperCase()).reverse().toString();
+        int x = IntStream.range(0, reverseString.length()).map((i) -> {
+            int delta = reverseString.charAt(i) - 'A' + 1;
+            return delta * (int) Math.pow(26.0, (double) i);
+        }).reduce(-1, (v1, v2) -> v1 + v2);
+
+        return getCell(sheet, x, Integer.parseInt(matcher.group(2)) - 1);
     }
 
     /**
