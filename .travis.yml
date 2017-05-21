@@ -1,0 +1,9 @@
+language: java
+sudo: false
+jdk:
+    - oraclejdk7
+script:
+    - ./gradlew test check
+
+after_success:
+    - ./gradlew jacocoTestReport
