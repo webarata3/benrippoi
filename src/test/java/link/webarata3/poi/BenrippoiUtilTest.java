@@ -182,4 +182,53 @@ public class BenrippoiUtilTest {
             assertThat(row.getRowNum(), is(fixture.y));
         }
     }
+
+    @RunWith(Theories.class)
+    public static class GetCellByIndex {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture(0, 0),
+            new Fixture(1, 1),
+            new Fixture(2, 2),
+            new Fixture(3, 3),
+            new Fixture(4, 4)
+        };
+
+        private Sheet sheet;
+
+
+        static class Fixture {
+            int x;
+            int y;
+
+            Fixture(int x, int y) {
+                this.x = x;
+                this.y = y;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}';
+            }
+        }
+        @Before
+        public void setup() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            sheet = wb.getSheetAt(0);
+        }
+
+        @Theory
+        public void getRow0Test(Fixture fixture) {
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.x, fixture.y);
+            assertThat(cell, is(notNullValue()));
+            assertThat(cell.getAddress().getColumn(), is(fixture.x));
+            assertThat(cell.getAddress().getRow(), is(fixture.y));
+        }
+    }
 }
