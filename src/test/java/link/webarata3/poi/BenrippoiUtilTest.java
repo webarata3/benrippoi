@@ -46,6 +46,7 @@ public class BenrippoiUtilTest {
             wb.close();
         }
 
+        @Test
         public void openInputStreamTest() throws Exception {
             File file = getTempWorkbookFile(tempFolder, "book1.xlsx");
             Workbook sb = BenrippoiUtil.open(Files.newInputStream(file.toPath()));
@@ -144,6 +145,14 @@ public class BenrippoiUtilTest {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
+        private Sheet sheet;
+
+        @Before
+        public void setup() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            sheet = wb.getSheetAt(0);
+        }
+
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0),
@@ -152,9 +161,6 @@ public class BenrippoiUtilTest {
             new Fixture(3),
             new Fixture(4)
         };
-
-        private Sheet sheet;
-
 
         static class Fixture {
             int y;
@@ -169,12 +175,6 @@ public class BenrippoiUtilTest {
                     "y=" + y + '}';
             }
         }
-        @Before
-        public void setup() throws Exception {
-            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
-            sheet = wb.getSheetAt(0);
-        }
-
         @Theory
         public void test(Fixture fixture) {
             Row row = sheet.getRow(fixture.y);
@@ -188,6 +188,14 @@ public class BenrippoiUtilTest {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
+        private Sheet sheet;
+
+        @Before
+        public void setup() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            sheet = wb.getSheetAt(0);
+        }
+
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0, 0),
@@ -196,8 +204,6 @@ public class BenrippoiUtilTest {
             new Fixture(3, 3),
             new Fixture(4, 4)
         };
-
-        private Sheet sheet;
 
         static class Fixture {
             int x;
@@ -216,11 +222,6 @@ public class BenrippoiUtilTest {
                     '}';
             }
         }
-        @Before
-        public void setup() throws Exception {
-            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
-            sheet = wb.getSheetAt(0);
-        }
 
         @Theory
         public void test(Fixture fixture) {
@@ -236,6 +237,14 @@ public class BenrippoiUtilTest {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
+        private Sheet sheet;
+
+        @Before
+        public void setup() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            sheet = wb.getSheetAt(0);
+        }
+
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture("A1", 0, 0),
@@ -244,8 +253,6 @@ public class BenrippoiUtilTest {
             new Fixture("C4", 2, 3),
             new Fixture("C5", 2, 4)
         };
-
-        private Sheet sheet;
 
         static class Fixture {
             String cellLabel;
@@ -266,11 +273,6 @@ public class BenrippoiUtilTest {
                     ", y=" + y +
                     '}';
             }
-        }
-        @Before
-        public void setup() throws Exception {
-            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
-            sheet = wb.getSheetAt(0);
         }
 
         @Theory

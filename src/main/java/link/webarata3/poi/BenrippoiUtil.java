@@ -117,7 +117,7 @@ public class BenrippoiUtil {
      * @param numeric 正規化する数値
      * @return 正規化した数値
      */
-    public static String normalizeNumericString(double numeric) {
+    private static String normalizeNumericString(double numeric) {
         // 44.0のような数値を44として取得するために、入力された数値と小数点以下を切り捨てた数値が
         // 一致した場合には、intにキャストして、小数点以下が表示されないようにしている
         if (numeric == Math.ceil(numeric)) {
@@ -132,7 +132,7 @@ public class BenrippoiUtil {
      * @param cell 計算式があるセル
      * @return CellValue
      */
-    public static CellValue getFomulaCellValue(Cell cell) {
+    private static CellValue getFomulaCellValue(Cell cell) {
         Workbook wb = cell.getSheet().getWorkbook();
         CreationHelper helper = wb.getCreationHelper();
         FormulaEvaluator evaluator = helper.createFormulaEvaluator();
