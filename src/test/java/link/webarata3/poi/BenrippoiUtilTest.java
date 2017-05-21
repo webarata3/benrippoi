@@ -1,8 +1,10 @@
 package link.webarata3.poi;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
@@ -134,6 +136,26 @@ public class BenrippoiUtilTest {
             assertThat(fixture.toString(), cell, is(notNullValue()));
             assertThat(fixture.toString(), cell.getAddress().getColumn(), is(fixture.x));
             assertThat(fixture.toString(), cell.getAddress().getRow(), is(fixture.y));
+        }
+    }
+
+    public static class GetRowByIndex {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        private Sheet sheet;
+
+        @Before
+        public void setup() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            sheet = wb.getSheetAt(0);
+        }
+
+        @Test
+        public void getRow0Test() {
+            Row row = sheet.getRow(0);
+            assertThat(row, is(notNullValue()));
+            assertThat(row.getRowNum(), is(0));
         }
     }
 }
