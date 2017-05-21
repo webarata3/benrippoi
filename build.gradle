@@ -48,6 +48,7 @@ artifacts {
 apply plugin: 'jacoco'
 
 jacocoTestReport {
+    sourceSets sourceSets.main
     reports {
         html.enabled = true
         xml.enabled = true
