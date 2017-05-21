@@ -65,6 +65,7 @@ findbugs {
     ignoreFailures = true
 }
 
+// Coveralls
 buildscript {
     repositories {
         mavenCentral()
