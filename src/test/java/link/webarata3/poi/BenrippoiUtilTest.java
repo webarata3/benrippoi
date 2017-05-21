@@ -176,7 +176,7 @@ public class BenrippoiUtilTest {
         }
 
         @Theory
-        public void getRow0Test(Fixture fixture) {
+        public void test(Fixture fixture) {
             Row row = sheet.getRow(fixture.y);
             assertThat(row, is(notNullValue()));
             assertThat(row.getRowNum(), is(fixture.y));
@@ -224,7 +224,7 @@ public class BenrippoiUtilTest {
         }
 
         @Theory
-        public void getRow0Test(Fixture fixture) {
+        public void test(Fixture fixture) {
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.x, fixture.y);
             assertThat(cell, is(notNullValue()));
             assertThat(cell.getAddress().getColumn(), is(fixture.x));
