@@ -47,9 +47,7 @@ artifacts {
 // task jacocoTestReport
 apply plugin: 'jacoco'
 
-//jacocoTestReport {
-task jacoco(type: JacocoReport) {
-    sourceSets sourceSets.main
+jacocoTestReport {
     reports {
         html.enabled = true
         xml.enabled = true
