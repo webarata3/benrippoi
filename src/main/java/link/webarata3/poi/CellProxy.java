@@ -105,7 +105,7 @@ public class CellProxy {
         }
     }
 
-    public int cellToInt() {
+    public int toInt() {
         switch (getCellTypeEnum()) {
             case STRING:
                 return stringToInt(getStringCellValue());
@@ -116,7 +116,7 @@ public class CellProxy {
         }
     }
 
-    public double cellToDouble() {
+    public double toDouble() {
         switch (getCellTypeEnum()) {
             case STRING:
                 return stringToDouble(cell.getStringCellValue());
@@ -127,7 +127,7 @@ public class CellProxy {
         }
     }
 
-    public boolean cellToBoolean() {
+    public boolean toBoolean() {
         switch (cell.getCellTypeEnum()) {
             case BOOLEAN:
                 return getBooleanCellValue();
