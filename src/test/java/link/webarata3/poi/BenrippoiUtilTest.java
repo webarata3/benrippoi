@@ -4,8 +4,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -140,22 +138,11 @@ public class BenrippoiUtilTest {
         }
     }
 
-    @Ignore
-    public static class ExcelTestBase {
+    @RunWith(Theories.class)
+    public static class GetRowByIndex  {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
-        protected Sheet sheet;
-
-        @Before
-        public void setup() throws Exception {
-            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
-            sheet = wb.getSheetAt(0);
-        }
-    }
-
-    @RunWith(Theories.class)
-    public static class GetRowByIndex extends ExcelTestBase {
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0),
@@ -180,7 +167,9 @@ public class BenrippoiUtilTest {
         }
 
         @Theory
-        public void test(Fixture fixture) {
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder);
+            assertThat(sheet, is(notNullValue()));
             Row row = BenrippoiUtil.getRow(sheet, fixture.y);
             assertThat(row, is(notNullValue()));
             assertThat(row.getRowNum(), is(fixture.y));
@@ -188,7 +177,10 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByIndex extends ExcelTestBase {
+    public static class GetCellByIndex {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0, 0),
@@ -217,7 +209,10 @@ public class BenrippoiUtilTest {
         }
 
         @Theory
-        public void test(Fixture fixture) {
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder);
+            assertThat(sheet, is(notNullValue()));
+
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.x, fixture.y);
             assertThat(cell, is(notNullValue()));
             assertThat(cell.getAddress().getColumn(), is(fixture.x));
@@ -226,7 +221,10 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByCellLabel extends ExcelTestBase {
+    public static class GetCellByCellLabel {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture("A1", 0, 0),
@@ -258,7 +256,10 @@ public class BenrippoiUtilTest {
         }
 
         @Theory
-        public void test(Fixture fixture) {
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder);
+            assertThat(sheet, is(notNullValue()));
+
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
             assertThat(cell, is(notNullValue()));
             assertThat(cell.getAddress().getColumn(), is(fixture.x));

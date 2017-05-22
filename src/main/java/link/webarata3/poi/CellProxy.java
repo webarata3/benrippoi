@@ -117,11 +117,20 @@ public class CellProxy {
     }
 
     public double cellToDouble() {
-        switch (cell.getCellTypeEnum()) {
+        switch (getCellTypeEnum()) {
             case STRING:
                 return stringToDouble(cell.getStringCellValue());
             case NUMERIC:
-                return cell.getNumericCellValue();
+                return getNumericCellValue();
+            default:
+                throw new PoiIllegalAccessException("cellはdoubleに変換できません");
+        }
+    }
+
+    public boolean cellToBoolean() {
+        switch (cell.getCellTypeEnum()) {
+            case BOOLEAN:
+                return getBooleanCellValue();
             default:
                 throw new PoiIllegalAccessException("cellはdoubleに変換できません");
         }

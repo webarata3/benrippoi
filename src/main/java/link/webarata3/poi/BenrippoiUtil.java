@@ -143,4 +143,15 @@ public class BenrippoiUtil {
         CellProxy cellProxy = new CellProxy(cell);
         return cellProxy.cellToDouble();
     }
+
+    /**
+     * セルの値をboolean型で取得する。
+     *
+     * @param cell セル
+     * @return boolean型の値
+     */
+    public static boolean cellToBoolean(Cell cell) {
+        CellProxy cellProxy = new CellProxy(cell);
+        return cellProxy.cellToBoolean();
+    }
 }
