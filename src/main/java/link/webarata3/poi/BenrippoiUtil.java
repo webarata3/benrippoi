@@ -130,7 +130,7 @@ public class BenrippoiUtil {
      */
     public static int cellToInt(Cell cell) {
         CellProxy cellProxy = new CellProxy(cell);
-        return cellProxy.cellToInt();
+        return cellProxy.toInt();
     }
 
     /**
@@ -141,7 +141,7 @@ public class BenrippoiUtil {
      */
     public static double cellToDouble(Cell cell) {
         CellProxy cellProxy = new CellProxy(cell);
-        return cellProxy.cellToDouble();
+        return cellProxy.toDouble();
     }
 
     /**
@@ -152,6 +152,6 @@ public class BenrippoiUtil {
      */
     public static boolean cellToBoolean(Cell cell) {
         CellProxy cellProxy = new CellProxy(cell);
-        return cellProxy.cellToBoolean();
+        return cellProxy.toBoolean();
     }
 }

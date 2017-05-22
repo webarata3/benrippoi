@@ -110,7 +110,7 @@ public class CellProxy {
             case STRING:
                 return stringToInt(getStringCellValue());
             case NUMERIC:
-                return (int) cell.getNumericCellValue();
+                return (int) getNumericCellValue();
             default:
                 throw new PoiIllegalAccessException("cellはintに変換できません");
         }
