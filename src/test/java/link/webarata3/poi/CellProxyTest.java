@@ -209,4 +209,100 @@ public class CellProxyTest {
             cellProxy.toInt();
         }
     }
+
+    @RunWith(Theories.class)
+    public static class 正常系_toDouble {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B4", 123.456),
+            new Fixture("C4", 123),
+            new Fixture("D4", 192.222),
+            new Fixture("G4", 64.074),
+            new Fixture("J4", 123123.456)
+        };
+
+        static class Fixture {
+            String cellLabel;
+            double expected;
+
+            Fixture(String cellLabel, double expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected='" + expected + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
+
+            Sheet sheet = wb.getSheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+
+            CellProxy cellProxy = new CellProxy(cell);
+            assertThat(cellProxy.toDouble(), is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_toDouble {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("E4"),
+            new Fixture("F4"),
+            new Fixture("H4"),
+            new Fixture("I4"),
+            new Fixture("K4")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
+
+            Sheet sheet = wb.getSheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+
+            CellProxy cellProxy = new CellProxy(cell);
+            thrown.expect(PoiIllegalAccessException.class);
+            cellProxy.toDouble();
+        }
+    }
 }

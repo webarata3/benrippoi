@@ -119,7 +119,7 @@ public class CellProxy {
     public double toDouble() {
         switch (getCellTypeEnum()) {
             case STRING:
-                return stringToDouble(cell.getStringCellValue());
+                return stringToDouble(getStringCellValue());
             case NUMERIC:
                 return getNumericCellValue();
             default:
