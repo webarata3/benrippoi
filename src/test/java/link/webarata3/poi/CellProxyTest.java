@@ -171,6 +171,7 @@ public class CellProxyTest {
 
         @DataPoints
         public static Fixture[] PARAMs = {
+            new Fixture("B2"),
             new Fixture("E3"),
             new Fixture("F3"),
             new Fixture("H3"),
@@ -267,6 +268,7 @@ public class CellProxyTest {
 
         @DataPoints
         public static Fixture[] PARAMs = {
+            new Fixture("B2"),
             new Fixture("E4"),
             new Fixture("F4"),
             new Fixture("H4"),

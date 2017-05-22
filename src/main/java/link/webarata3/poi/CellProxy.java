@@ -65,7 +65,7 @@ public class CellProxy {
         try {
             return (int) Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            throw new IllegalStateException("cellはintに変換できません");
+            throw new PoiIllegalAccessException("cellはintに変換できません");
         }
     }
 
