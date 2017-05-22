@@ -90,7 +90,7 @@ public class CellProxy {
         return evaluator.evaluate(cell);
     }
 
-    public String cellToString() {
+    public String toStr() {
         switch (getCellTypeEnum()) {
             case STRING:
                 return getStringCellValue();

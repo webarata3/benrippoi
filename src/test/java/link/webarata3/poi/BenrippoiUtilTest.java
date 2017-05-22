@@ -22,32 +22,23 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Enclosed.class)
 public class BenrippoiUtilTest {
-    private static File getTempWorkbookFile(TemporaryFolder tempFolder, String fileName) throws Exception {
-        File tempFile = new File(tempFolder.getRoot(), "temp.xlsx");
-        Files.copy(BenrippoiUtil.class.getResourceAsStream(fileName), tempFile.toPath());
-
-        return tempFile;
-    }
-
-    private static Workbook getTempWorkbook(TemporaryFolder tempFolder, String fileName) throws Exception {
-        File tempFile = getTempWorkbookFile(tempFolder, fileName);
-        return BenrippoiUtil.open(Files.newInputStream(tempFile.toPath()));
-    }
-
     public static class GetWorkbookTest {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
         @Test
         public void openFileNameTest() throws Exception {
-            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
             wb.close();
         }
 
         @Test
         public void openInputStreamTest() throws Exception {
-            File file = getTempWorkbookFile(tempFolder, "book1.xlsx");
-            Workbook sb = BenrippoiUtil.open(Files.newInputStream(file.toPath()));
+            File file = TestUtil.getTempWorkbookFile(tempFolder, "book1.xlsx");
+            Workbook wb = BenrippoiUtil.open(Files.newInputStream(file.toPath()));
+            assertThat(wb, is(notNullValue()));
+            wb.close();
         }
     }
 
@@ -128,7 +119,7 @@ public class BenrippoiUtilTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
             Sheet sheet = wb.getSheetAt(0);
 
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);

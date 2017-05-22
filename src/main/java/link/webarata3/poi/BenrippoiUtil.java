@@ -119,7 +119,7 @@ public class BenrippoiUtil {
      */
     public static String cellToString(Cell cell) {
         CellProxy cellProxy = new CellProxy(cell);
-        return cellProxy.cellToString();
+        return cellProxy.toStr();
     }
 
     /**
