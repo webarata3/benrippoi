@@ -128,7 +128,7 @@ public class CellProxy {
     }
 
     public boolean toBoolean() {
-        switch (cell.getCellTypeEnum()) {
+        switch (getCellTypeEnum()) {
             case BOOLEAN:
                 return getBooleanCellValue();
             default:
