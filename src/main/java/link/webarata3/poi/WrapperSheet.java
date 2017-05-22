@@ -9,7 +9,7 @@ public class WrapperSheet {
         this.sheet = sheet;
     }
 
-    public static WrapperSheet sheet(Sheet sheet) {
+    public static WrapperSheet create(Sheet sheet) {
         return new WrapperSheet(sheet);
     }
 

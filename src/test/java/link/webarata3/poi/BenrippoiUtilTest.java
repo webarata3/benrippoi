@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.experimental.runners.Enclosed;
@@ -23,6 +24,17 @@ import static org.junit.Assert.assertThat;
 
 @RunWith(Enclosed.class)
 public class BenrippoiUtilTest {
+    private static File getTempWorkbookFile(TemporaryFolder tempFolder, String fileName) throws Exception {
+        File tempFile = new File(tempFolder.getRoot(), "temp.xlsx");
+        Files.copy(BenrippoiUtil.class.getResourceAsStream(fileName), tempFile.toPath());
+
+        return tempFile;
+    }
+
+    private static Workbook getTempWorkbook(TemporaryFolder tempFolder, String fileName) throws Exception {
+        File tempFile = getTempWorkbookFile(tempFolder, fileName);
+        return BenrippoiUtil.open(Files.newInputStream(tempFile.toPath()));
+    }
 
     public static class GetWorkbookTest {
         @Rule
@@ -30,13 +42,13 @@ public class BenrippoiUtilTest {
 
         @Test
         public void openFileNameTest() throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
             wb.close();
         }
 
         @Test
         public void openInputStreamTest() throws Exception {
-            File file = TestUtil.getTempWorkbookFile(tempFolder, "book1.xlsx");
+            File file = getTempWorkbookFile(tempFolder, "book1.xlsx");
             Workbook sb = BenrippoiUtil.open(Files.newInputStream(file.toPath()));
         }
     }
@@ -118,7 +130,7 @@ public class BenrippoiUtilTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
             Sheet sheet = wb.getSheetAt(0);
 
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
@@ -128,11 +140,22 @@ public class BenrippoiUtilTest {
         }
     }
 
-    @RunWith(Theories.class)
-    public static class GetRowByIndex {
+    @Ignore
+    public static class ExcelTestBase {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
+        protected Sheet sheet;
+
+        @Before
+        public void setup() throws Exception {
+            Workbook wb = BenrippoiUtilTest.getTempWorkbook(tempFolder, "book1.xlsx");
+            sheet = wb.getSheetAt(0);
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class GetRowByIndex extends ExcelTestBase {
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0),
@@ -156,13 +179,6 @@ public class BenrippoiUtilTest {
             }
         }
 
-        private Sheet sheet;
-
-        @Before
-        public void setup() throws Exception {
-            sheet = TestUtil.getSheet(tempFolder);
-        }
-
         @Theory
         public void test(Fixture fixture) {
             Row row = BenrippoiUtil.getRow(sheet, fixture.y);
@@ -172,10 +188,7 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByIndex {
-        @Rule
-        public TemporaryFolder tempFolder = new TemporaryFolder();
-
+    public static class GetCellByIndex extends ExcelTestBase {
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0, 0),
@@ -203,13 +216,6 @@ public class BenrippoiUtilTest {
             }
         }
 
-        private Sheet sheet;
-
-        @Before
-        public void setup() throws Exception {
-            sheet = TestUtil.getSheet(tempFolder);
-        }
-
         @Theory
         public void test(Fixture fixture) {
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.x, fixture.y);
@@ -220,10 +226,7 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByCellLabel{
-        @Rule
-        public TemporaryFolder tempFolder = new TemporaryFolder();
-
+    public static class GetCellByCellLabel extends ExcelTestBase {
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture("A1", 0, 0),
@@ -252,13 +255,6 @@ public class BenrippoiUtilTest {
                     ", y=" + y +
                     '}';
             }
-        }
-
-        private Sheet sheet;
-
-        @Before
-        public void setup() throws Exception {
-            sheet = TestUtil.getSheet(tempFolder);
         }
 
         @Theory
