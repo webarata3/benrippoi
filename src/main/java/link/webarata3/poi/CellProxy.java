@@ -126,7 +126,11 @@ public class CellProxy {
             case STRING:
                 return stringToInt(getStringCellValue());
             case NUMERIC:
-                return (int) getNumericCellValue();
+                if (isDateType()) {
+                    throw new PoiIllegalAccessException("cellはintに変換できません");
+                } else {
+                    return (int) getNumericCellValue();
+                }
             default:
                 throw new PoiIllegalAccessException("cellはintに変換できません");
         }
@@ -137,7 +141,11 @@ public class CellProxy {
             case STRING:
                 return stringToDouble(getStringCellValue());
             case NUMERIC:
-                return getNumericCellValue();
+                if (isDateType()) {
+                    throw new PoiIllegalAccessException("cellはdoubleに変換できません");
+                } else {
+                    return getNumericCellValue();
+                }
             default:
                 throw new PoiIllegalAccessException("cellはdoubleに変換できません");
         }

@@ -12,7 +12,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(Enclosed.class)
@@ -165,7 +165,7 @@ public class CellProxyTest {
         public static Fixture[] PARAMs = {
             new Fixture("B3", 456),
             new Fixture("C3", 123),
-            new Fixture("D3", 105),
+            new Fixture("D3", 150),
             new Fixture("G3", 369),
             new Fixture("J3", 456123)
         };
@@ -262,8 +262,8 @@ public class CellProxyTest {
         public static Fixture[] PARAMs = {
             new Fixture("B4", 123.456),
             new Fixture("C4", 123),
-            new Fixture("D4", 192.222),
-            new Fixture("G4", 64.074),
+            new Fixture("D4", 150.51),
+            new Fixture("G4", 50.17),
             new Fixture("J4", 123123.456)
         };
 
@@ -297,7 +297,7 @@ public class CellProxyTest {
             assertThat(fixture.toString(), cell, is(notNullValue()));
 
             CellProxy cellProxy = new CellProxy(cell);
-            assertThat(cellProxy.toDouble(), is(fixture.expected));
+            assertThat(cellProxy.toDouble(), is(closeTo(fixture.expected, 0.00001)));
         }
     }
 
