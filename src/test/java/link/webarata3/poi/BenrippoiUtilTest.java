@@ -16,9 +16,8 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.nio.file.Files;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(Enclosed.class)
 public class BenrippoiUtilTest {
