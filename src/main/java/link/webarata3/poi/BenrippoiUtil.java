@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -153,5 +154,16 @@ public class BenrippoiUtil {
     public static boolean cellToBoolean(Cell cell) {
         CellProxy cellProxy = new CellProxy(cell);
         return cellProxy.toBoolean();
+    }
+
+    /**
+     * セルの値をDate型で取得する。
+     *
+     * @param cell セル
+     * @return Date型の値
+     */
+    public static Date cellToDate(Cell cell) {
+        CellProxy cellProxy = new CellProxy(cell);
+        return cellProxy.toDate();
     }
 }

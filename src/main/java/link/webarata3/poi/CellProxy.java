@@ -2,47 +2,53 @@ package link.webarata3.poi;
 
 import org.apache.poi.ss.usermodel.*;
 
+import java.util.Date;
+
 public class CellProxy {
     private Cell cell;
     private CellValue cellValue;
 
     public CellProxy(Cell cell) {
+        this.cell = cell;
         if (cell.getCellTypeEnum() == CellType.FORMULA) {
-            this.cellValue = getFomulaCellValue(cell);
-        } else {
-            this.cell = cell;
+            cellValue = getFomulaCellValue(cell);
         }
     }
 
     private CellType getCellTypeEnum() {
-        if (cell == null) {
-            return cellValue.getCellTypeEnum();
-        } else {
+        if (cellValue == null) {
             return cell.getCellTypeEnum();
+        } else {
+            return cellValue.getCellTypeEnum();
         }
     }
 
     private String getStringCellValue() {
-        if (cell == null) {
-            return cellValue.getStringValue();
-        } else {
-            return cell.getStringCellValue();
-        }
+        return cellValue == null ? cell.getStringCellValue() : cellValue.getStringValue();
     }
 
     private double getNumericCellValue() {
-        if (cell == null) {
-            return cellValue.getNumberValue();
-        } else {
-            return cell.getNumericCellValue();
-        }
+        return cellValue == null ?cell.getNumericCellValue(): cellValue.getNumberValue();
     }
 
     private boolean getBooleanCellValue() {
-        if (cell == null) {
-            return cellValue.getBooleanValue();
+        return cellValue == null ?  cell.getBooleanCellValue() : cellValue.getBooleanValue();
+    }
+
+    private boolean isDateType() {
+        if (cellValue == null) {
+            if (cell.getCellTypeEnum() == CellType.NUMERIC) {
+                return DateUtil.isCellDateFormatted(cell);
+            }
+            else {
+                return false;
+            }
         } else {
-            return cell.getBooleanCellValue();
+            if (cellValue.getCellTypeEnum() == CellType.NUMERIC) {
+                return DateUtil.isCellDateFormatted(cell);
+            } else {
+                return false;
+            }
         }
     }
 
@@ -95,7 +101,11 @@ public class CellProxy {
             case STRING:
                 return getStringCellValue();
             case NUMERIC:
-                return normalizeNumericString(getNumericCellValue());
+                if (isDateType()) {
+                    throw new UnsupportedOperationException("今はサポート外");
+                } else {
+                    return normalizeNumericString(getNumericCellValue());
+                }
             case BOOLEAN:
                 return String.valueOf(getBooleanCellValue());
             case BLANK:
@@ -133,6 +143,14 @@ public class CellProxy {
                 return getBooleanCellValue();
             default:
                 throw new PoiIllegalAccessException("cellはdoubleに変換できません");
+        }
+    }
+
+    public Date toDate() {
+        if (isDateType()) {
+            return  cell.getDateCellValue();
+        } else {
+            throw new PoiIllegalAccessException("cellはDateに変換できません");
         }
     }
 }
