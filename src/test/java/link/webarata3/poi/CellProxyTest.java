@@ -489,4 +489,56 @@ public class CellProxyTest {
             assertThat(cellProxy.toLocalDate() , is(fixture.expected));
         }
     }
+
+    @RunWith(Theories.class)
+    public static class 異常_toLocalDate_日付 {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("A6"),
+            new Fixture("B6"),
+            new Fixture("C6"),
+            new Fixture("D6"),
+            new Fixture("F6"),
+            new Fixture("H6"),
+            new Fixture("I6"),
+            new Fixture("J6"),
+            new Fixture("K2")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
+
+            Sheet sheet = wb.getSheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+
+            CellProxy cellProxy = new CellProxy(cell);
+            thrown.expect(PoiIllegalAccessException.class);
+            cellProxy.toLocalDate();
+        }
+    }
 }
