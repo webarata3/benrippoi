@@ -8,6 +8,9 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 public class CellProxy {
@@ -160,9 +163,10 @@ public class CellProxy {
         }
     }
 
-    public Date toDate() {
+    public LocalDate toLocalDate() {
         if (isDateType()) {
-            return  cell.getDateCellValue();
+            Date date = cell.getDateCellValue();
+            return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
         } else {
             throw new PoiIllegalAccessException("cellはDateに変換できません");
         }

@@ -12,6 +12,8 @@ import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
+import java.time.LocalDate;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -440,6 +442,51 @@ public class CellProxyTest {
             CellProxy cellProxy = new CellProxy(cell);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toBoolean();
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_toLocalDate_日付 {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("E6", LocalDate.of(2015,12,1)),
+            new Fixture("G6", LocalDate.of(2015,12,3))
+        };
+
+        static class Fixture {
+            String cellLabel;
+            LocalDate expected;
+
+            Fixture(String cellLabel, LocalDate expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected='" + expected + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
+
+            Sheet sheet = wb.getSheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+
+            CellProxy cellProxy = new CellProxy(cell);
+            assertThat(cellProxy.toLocalDate() , is(fixture.expected));
         }
     }
 }
