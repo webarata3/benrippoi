@@ -10,6 +10,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
@@ -48,8 +49,7 @@ public class CellProxy {
         if (cellValue == null) {
             if (cell.getCellTypeEnum() == CellType.NUMERIC) {
                 return DateUtil.isCellDateFormatted(cell);
-            }
-            else {
+            } else {
                 return false;
             }
         } else {
@@ -168,7 +168,16 @@ public class CellProxy {
             Date date = cell.getDateCellValue();
             return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalDate();
         } else {
-            throw new PoiIllegalAccessException("cellはDateに変換できません");
+            throw new PoiIllegalAccessException("cellはLocalDateに変換できません");
+        }
+    }
+
+    public LocalTime toLocalTime() {
+        if (isDateType()) {
+            Date date = cell.getDateCellValue();
+            return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault()).toLocalTime();
+        } else {
+            throw new PoiIllegalAccessException("cellはLocalTimeに変換できません");
         }
     }
 }

@@ -13,6 +13,7 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -539,6 +540,103 @@ public class CellProxyTest {
             CellProxy cellProxy = new CellProxy(cell);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toLocalDate();
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_toLocalTime_日付 {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("E7", LocalTime.of(10,10,30)),
+            new Fixture("G7", LocalTime.of(12,34,30))
+        };
+
+        static class Fixture {
+            String cellLabel;
+            LocalTime expected;
+
+            Fixture(String cellLabel, LocalTime expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected='" + expected + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
+
+            Sheet sheet = wb.getSheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+
+            CellProxy cellProxy = new CellProxy(cell);
+            assertThat(cellProxy.toLocalTime() , is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常_toLocalTime_日付 {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("A7"),
+            new Fixture("B7"),
+            new Fixture("C7"),
+            new Fixture("D7"),
+            new Fixture("F7"),
+            new Fixture("H7"),
+            new Fixture("I7"),
+            new Fixture("J7"),
+            new Fixture("K7")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            assertThat(wb, is(notNullValue()));
+
+            Sheet sheet = wb.getSheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(fixture.toString(), cell, is(notNullValue()));
+
+            CellProxy cellProxy = new CellProxy(cell);
+            thrown.expect(PoiIllegalAccessException.class);
+            cellProxy.toLocalTime();
         }
     }
 }
