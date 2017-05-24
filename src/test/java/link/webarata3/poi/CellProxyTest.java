@@ -220,7 +220,7 @@ public class CellProxyTest {
             new Fixture("F3"),
             new Fixture("H3"),
             new Fixture("I3"),
-            new Fixture("K2")
+            new Fixture("K3")
         };
 
         static class Fixture {
@@ -410,7 +410,7 @@ public class CellProxyTest {
             new Fixture("C5"),
             new Fixture("D5"),
             new Fixture("E5"),
-            new Fixture("K2")
+            new Fixture("K5")
         };
 
         static class Fixture {
@@ -507,7 +507,7 @@ public class CellProxyTest {
             new Fixture("H6"),
             new Fixture("I6"),
             new Fixture("J6"),
-            new Fixture("K2")
+            new Fixture("K6")
         };
 
         static class Fixture {
