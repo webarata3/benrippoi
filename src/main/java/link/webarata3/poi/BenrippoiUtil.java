@@ -108,11 +108,14 @@ public class BenrippoiUtil {
         Matcher matcher = p1.matcher(cellLabel);
         matcher.find();
 
+        // 上の位から計算するため、Cell LabelのAB1のABの部分を逆にする。
         String reverseString = new StringBuilder(matcher.group(1).toUpperCase()).reverse().toString();
+        // Aを1～Zを26として、ラベルを数値に変換する。
+        // 26進数なので、上位の桁は26倍する
         int x = IntStream.range(0, reverseString.length()).map((i) -> {
             int delta = reverseString.charAt(i) - 'A' + 1;
             return delta * (int) Math.pow(26.0, (double) i);
-        }).reduce(-1, (v1, v2) -> v1 + v2);
+        }).reduce(-1, (v1, v2) -> v1 + v2); // 集計するが、0始まりなので、合計を-1する
 
         return getCell(sheet, x, Integer.parseInt(matcher.group(2)) - 1);
     }
