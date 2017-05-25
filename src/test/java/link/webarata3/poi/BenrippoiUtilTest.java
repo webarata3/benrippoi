@@ -250,7 +250,7 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByIndex {
+    public static class 正常系_getCellByIndex {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -294,7 +294,7 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByCellLabel {
+    public static class 正常系_getCellByCellLabel {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -337,6 +337,52 @@ public class BenrippoiUtilTest {
             assertThat(cell, is(notNullValue()));
             assertThat(cell.getAddress().getColumn(), is(fixture.x));
             assertThat(cell.getAddress().getRow(), is(fixture.y));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_cellToString {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B2", "あいうえお"),
+            new Fixture("C2", "123"),
+            new Fixture("D2", "150.51"),
+            new Fixture("F2", "true"),
+            new Fixture("G2", "123150.51"),
+            new Fixture("H2", ""),
+            new Fixture("I2", ""),
+            new Fixture("J2", "あいうえお123")
+        };
+
+        static class Fixture {
+            String cellLabel;
+            String expected;
+
+            Fixture(String cellLabel, String expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected='" + expected + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            assertThat(BenrippoiUtil.cellToString(cell), is(fixture.expected));
         }
     }
 }
