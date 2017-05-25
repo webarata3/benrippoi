@@ -112,7 +112,7 @@ public class BenrippoiUtil {
     public static Cell getCell(Sheet sheet, String cellLabel) {
         Pattern p1 = Pattern.compile("([a-zA-Z]+)([0-9]+)");
         Matcher matcher = p1.matcher(cellLabel);
-        matcher.find();
+        if (!matcher.find()) throw new IllegalArgumentException("セルラベルに「" + cellLabel + "」は指定できません。");
 
         // 上の位から計算するため、Cell LabelのAB1のABの部分を逆にする。
         String reverseString = new StringBuilder(matcher.group(1).toUpperCase()).reverse().toString();

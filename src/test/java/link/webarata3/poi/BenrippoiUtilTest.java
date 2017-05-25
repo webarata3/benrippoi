@@ -170,6 +170,48 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
+    public static class 異常系_getCellLabelToCellIndexTest {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("あ1"),
+            new Fixture("AA１"),
+            new Fixture("あ"),
+            new Fixture("1"),
+            new Fixture("A")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            Sheet sheet = wb.getSheetAt(0);
+
+            thrown.expect(IllegalArgumentException.class);
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+        }
+    }
+
+    @RunWith(Theories.class)
     public static class GetRowByIndex  {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
