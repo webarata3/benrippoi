@@ -225,7 +225,7 @@ public class BenrippoiUtilTest {
             new Fixture(1),
             new Fixture(2),
             new Fixture(3),
-            new Fixture(4)
+            new Fixture(10)
         };
 
         static class Fixture {
