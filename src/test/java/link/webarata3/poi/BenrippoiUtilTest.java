@@ -463,4 +463,91 @@ public class BenrippoiUtilTest {
             BenrippoiUtil.cellToString(cell);
         }
     }
+
+    @RunWith(Theories.class)
+    public static class 正常系_cellToInt {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B3", 456),
+            new Fixture("C3", 123),
+            new Fixture("D3", 150),
+            new Fixture("G3", 369),
+            new Fixture("J3", 456123)
+        };
+
+        static class Fixture {
+            String cellLabel;
+            int expected;
+
+            Fixture(String cellLabel, int expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected=" + expected +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            assertThat(BenrippoiUtil.cellToInt(cell), is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_cellToInt {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B2"),
+            new Fixture("E3"),
+            new Fixture("F3"),
+            new Fixture("H3"),
+            new Fixture("I3"),
+            new Fixture("K3")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            thrown.expect(PoiIllegalAccessException.class);
+            BenrippoiUtil.cellToInt(cell);
+        }
+    }
 }
