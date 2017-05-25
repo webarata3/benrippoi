@@ -129,11 +129,11 @@ public class BenrippoiUtilTest {
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture("A1", 0, 0),
-            new Fixture("B1",1, 0),
+            new Fixture("B1", 1, 0),
             new Fixture("C1", 2, 0),
-            new Fixture("AA1",26, 0),
-            new Fixture("AB1",27, 0),
-            new Fixture("AC1",28, 0)
+            new Fixture("AA1", 26, 0),
+            new Fixture("AB1", 27, 0),
+            new Fixture("AC1", 28, 0)
         };
 
         static class Fixture {
@@ -212,7 +212,7 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetRowByIndex  {
+    public static class GetRowByIndex {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -383,6 +383,84 @@ public class BenrippoiUtilTest {
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
             assertThat(cell, is(notNullValue()));
             assertThat(BenrippoiUtil.cellToString(cell), is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_日付仮_cellToString {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("E2")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            thrown.expect(UnsupportedOperationException.class);
+            BenrippoiUtil.cellToString(cell);
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_cellToString {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("K2")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            thrown.expect(PoiIllegalAccessException.class);
+            BenrippoiUtil.cellToString(cell);
         }
     }
 }
