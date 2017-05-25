@@ -16,6 +16,7 @@ import org.junit.runner.RunWith;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
@@ -716,6 +717,93 @@ public class BenrippoiUtilTest {
             assertThat(cell, is(notNullValue()));
             thrown.expect(PoiIllegalAccessException.class);
             BenrippoiUtil.cellToBoolean(cell);
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_cellToLocalDate {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("E6", LocalDate.of(2015, 12, 1)),
+            new Fixture("G6", LocalDate.of(2015, 12, 3))
+        };
+
+        static class Fixture {
+            String cellLabel;
+            LocalDate expected;
+
+            Fixture(String cellLabel, LocalDate expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected=" + expected +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            assertThat(BenrippoiUtil.cellToLocalDate(cell), is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_cellToLocalDate {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("A6"),
+            new Fixture("B6"),
+            new Fixture("C6"),
+            new Fixture("D6"),
+            new Fixture("F6"),
+            new Fixture("H6"),
+            new Fixture("I6"),
+            new Fixture("J6"),
+            new Fixture("K6")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            thrown.expect(PoiIllegalAccessException.class);
+            BenrippoiUtil.cellToLocalDate(cell);
         }
     }
 }
