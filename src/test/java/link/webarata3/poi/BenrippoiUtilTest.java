@@ -17,7 +17,7 @@ import org.junit.runner.RunWith;
 import java.io.File;
 import java.nio.file.Files;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 @RunWith(Enclosed.class)
@@ -548,6 +548,91 @@ public class BenrippoiUtilTest {
             assertThat(cell, is(notNullValue()));
             thrown.expect(PoiIllegalAccessException.class);
             BenrippoiUtil.cellToInt(cell);
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_cellToDouble {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B4", 123.456),
+            new Fixture("C4", 123),
+            new Fixture("D4", 150.51),
+            new Fixture("G4", 50.17),
+            new Fixture("J4", 123123.456)
+        };
+
+        static class Fixture {
+            String cellLabel;
+            double expected;
+
+            Fixture(String cellLabel, double expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected=" + expected +
+                    '}';
+            }
+        }
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            assertThat(BenrippoiUtil.cellToDouble(cell), is(closeTo(fixture.expected, 0.00001)));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_cellToDouble {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B2"),
+            new Fixture("E4"),
+            new Fixture("F4"),
+            new Fixture("H4"),
+            new Fixture("I4"),
+            new Fixture("K4")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            thrown.expect(PoiIllegalAccessException.class);
+            BenrippoiUtil.cellToDouble(cell);
         }
     }
 }
