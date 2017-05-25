@@ -1,8 +1,5 @@
 package link.webarata3.poi;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Rule;
 import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
@@ -13,10 +10,12 @@ import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.closeTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 @RunWith(Enclosed.class)
 public class CellProxyTest {
@@ -57,16 +56,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             assertThat(cellProxy.toStr(), is(fixture.expected));
         }
     }
@@ -100,16 +90,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(UnsupportedOperationException.class);
             cellProxy.toStr();
         }
@@ -144,16 +125,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toStr();
         }
@@ -193,16 +165,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             assertThat(cellProxy.toInt(), is(fixture.expected));
         }
     }
@@ -241,16 +204,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toInt();
         }
@@ -290,16 +244,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             assertThat(cellProxy.toDouble(), is(closeTo(fixture.expected, 0.00001)));
         }
     }
@@ -338,16 +283,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toDouble();
         }
@@ -384,16 +320,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             assertThat(cellProxy.toBoolean(), is(fixture.expected));
         }
     }
@@ -431,16 +358,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toBoolean();
         }
@@ -453,8 +371,8 @@ public class CellProxyTest {
 
         @DataPoints
         public static Fixture[] PARAMs = {
-            new Fixture("E6", LocalDate.of(2015,12,1)),
-            new Fixture("G6", LocalDate.of(2015,12,3))
+            new Fixture("E6", LocalDate.of(2015, 12, 1)),
+            new Fixture("G6", LocalDate.of(2015, 12, 3))
         };
 
         static class Fixture {
@@ -477,17 +395,8 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
-            assertThat(cellProxy.toLocalDate() , is(fixture.expected));
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
+            assertThat(cellProxy.toLocalDate(), is(fixture.expected));
         }
     }
 
@@ -528,16 +437,7 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toLocalDate();
         }
@@ -550,8 +450,8 @@ public class CellProxyTest {
 
         @DataPoints
         public static Fixture[] PARAMs = {
-            new Fixture("E7", LocalTime.of(10,10,30)),
-            new Fixture("G7", LocalTime.of(12,34,30))
+            new Fixture("E7", LocalTime.of(10, 10, 30)),
+            new Fixture("G7", LocalTime.of(12, 34, 30))
         };
 
         static class Fixture {
@@ -574,17 +474,8 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
-            assertThat(cellProxy.toLocalTime() , is(fixture.expected));
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
+            assertThat(cellProxy.toLocalTime(), is(fixture.expected));
         }
     }
 
@@ -625,18 +516,88 @@ public class CellProxyTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-            assertThat(wb, is(notNullValue()));
-
-            Sheet sheet = wb.getSheetAt(0);
-            assertThat(sheet, is(notNullValue()));
-
-            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
-            assertThat(fixture.toString(), cell, is(notNullValue()));
-
-            CellProxy cellProxy = new CellProxy(cell);
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
             thrown.expect(PoiIllegalAccessException.class);
             cellProxy.toLocalTime();
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_toLocalDateTime_日付 {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("E8", LocalDateTime.of(2015, 12, 1, 10, 10, 30)),
+            new Fixture("G8", LocalDateTime.of(2015,12,3, 10,10, 30))
+        };
+
+        static class Fixture {
+            String cellLabel;
+            LocalDateTime expected;
+
+            Fixture(String cellLabel, LocalDateTime expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected='" + expected + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
+            assertThat(cellProxy.toLocalDateTime(), is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常_toLocalDateTime_日付 {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("A8"),
+            new Fixture("B8"),
+            new Fixture("C8"),
+            new Fixture("D8"),
+            new Fixture("F8"),
+            new Fixture("H8"),
+            new Fixture("I8"),
+            new Fixture("J8"),
+            new Fixture("K8")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            CellProxy cellProxy = TestUtil.getCellProxy(tempFolder, "book1.xlsx", fixture.cellLabel);
+            thrown.expect(PoiIllegalAccessException.class);
+            cellProxy.toLocalDateTime();
         }
     }
 }

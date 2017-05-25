@@ -180,4 +180,13 @@ public class CellProxy {
             throw new PoiIllegalAccessException("cellはLocalTimeに変換できません");
         }
     }
+
+    public LocalDateTime toLocalDateTime() {
+        if (isDateType()) {
+            Date date = cell.getDateCellValue();
+            return LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
+        } else {
+            throw new PoiIllegalAccessException("cellはLocalDateTimeに変換できません");
+        }
+    }
 }

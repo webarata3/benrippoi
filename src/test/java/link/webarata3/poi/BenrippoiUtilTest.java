@@ -10,6 +10,7 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.experimental.theories.DataPoints;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
+import org.junit.rules.ExpectedException;
 import org.junit.rules.TemporaryFolder;
 import org.junit.runner.RunWith;
 
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 
 @RunWith(Enclosed.class)
 public class BenrippoiUtilTest {
-    public static class GetWorkbookTest {
+    public static class 正常系_getWorkbook {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -42,7 +43,7 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class CellIndexToCellLabelTest {
+    public static class 正常系_cellIndexToCellLabelTest {
         @DataPoints
         public static Fixture[] PARAMs = {
             new Fixture(0, 0, "A1"),
@@ -81,29 +82,27 @@ public class BenrippoiUtilTest {
     }
 
     @RunWith(Theories.class)
-    public static class GetCellByCellLabelTest {
+    public static class 異常系_cellIndexToCellLabelTest {
         @Rule
-        public TemporaryFolder tempFolder = new TemporaryFolder();
+        public ExpectedException thrown = ExpectedException.none();
 
         @DataPoints
         public static Fixture[] PARAMs = {
-            new Fixture(0, 0, "A1"),
-            new Fixture(1, 0, "B1"),
-            new Fixture(2, 0, "C1"),
-            new Fixture(26, 0, "AA1"),
-            new Fixture(27, 0, "AB1"),
-            new Fixture(28, 0, "AC1")
+            new Fixture(-1, 0),
+            new Fixture(0, -1),
+            new Fixture(-1, -1),
+            new Fixture(-2, 0),
+            new Fixture(0, -2),
+            new Fixture(-2, -2)
         };
 
         static class Fixture {
             int x;
             int y;
-            String cellLabel;
 
-            Fixture(int x, int y, String cellLabel) {
+            Fixture(int x, int y) {
                 this.x = x;
                 this.y = y;
-                this.cellLabel = cellLabel;
             }
 
             @Override
@@ -111,7 +110,49 @@ public class BenrippoiUtilTest {
                 return "Fixture{" +
                     "x=" + x +
                     ", y=" + y +
-                    ", cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) {
+            thrown.expect(IllegalArgumentException.class);
+            BenrippoiUtil.cellIndexToCellLabel(fixture.x, fixture.y);
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 正常系_getCellLabelToCellIndexTest {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("A1", 0, 0),
+            new Fixture("B1",1, 0),
+            new Fixture("C1", 2, 0),
+            new Fixture("AA1",26, 0),
+            new Fixture("AB1",27, 0),
+            new Fixture("AC1",28, 0)
+        };
+
+        static class Fixture {
+            String cellLabel;
+            int x;
+            int y;
+
+            Fixture(String cellLabel, int x, int y) {
+                this.cellLabel = cellLabel;
+                this.x = x;
+                this.y = y;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", x=" + x +
+                    ", y=" + y +
                     '}';
             }
         }
@@ -158,7 +199,7 @@ public class BenrippoiUtilTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Sheet sheet = TestUtil.getSheet(tempFolder);
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
             assertThat(sheet, is(notNullValue()));
             Row row = BenrippoiUtil.getRow(sheet, fixture.y);
             assertThat(row, is(notNullValue()));
@@ -200,7 +241,7 @@ public class BenrippoiUtilTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Sheet sheet = TestUtil.getSheet(tempFolder);
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
             assertThat(sheet, is(notNullValue()));
 
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.x, fixture.y);
@@ -247,7 +288,7 @@ public class BenrippoiUtilTest {
 
         @Theory
         public void test(Fixture fixture) throws Exception {
-            Sheet sheet = TestUtil.getSheet(tempFolder);
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
             assertThat(sheet, is(notNullValue()));
 
             Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);

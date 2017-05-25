@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.IntStream;
@@ -53,8 +56,12 @@ public class BenrippoiUtil {
      * @param x 列番号（0〜）
      * @param y 行番号（0〜）
      * @return セルのラベル
+     * @throws IllegalArgumentException x、yのいずれかが0未満の場合
      */
-    public static String cellIndexToCellLabel(int x, int y) {
+    public static String cellIndexToCellLabel(int x, int y)  {
+        if (x < 0) throw new IllegalArgumentException("xは0以上でなければなりません: " + x);
+        if (y < 0) throw new IllegalArgumentException("yは0以上でなければなりません: " + y);
+
         String cellName = dec26(x, 0);
         return cellName + (y + 1);
     }
@@ -164,13 +171,35 @@ public class BenrippoiUtil {
     }
 
     /**
-     * セルの値をDate型で取得する。
+     * セルの値をLocalDate型で取得する。
      *
      * @param cell セル
-     * @return Date型の値
+     * @return LocalDate型の値
      */
-//    public static Date cellToDate(Cell cell) {
-//        CellProxy cellProxy = new CellProxy(cell);
-//        return cellProxy.toDate();
-//    }
+    public static LocalDate cellToLocalDate(Cell cell) {
+        CellProxy cellProxy = new CellProxy(cell);
+        return cellProxy.toLocalDate();
+    }
+
+    /**
+     * セルの値をLocalTime型で取得する。
+     *
+     * @param cell セル
+     * @return LocalTime型の値
+     */
+    public static LocalTime cellToLocalTime(Cell cell) {
+        CellProxy cellProxy = new CellProxy(cell);
+        return cellProxy.toLocalTime();
+    }
+
+    /**
+     * セルの値をLocalDateTime型で取得する。
+     *
+     * @param cell セル
+     * @return LocalDateTime型の値
+     */
+    public static LocalDateTime cellToLocalDateTime(Cell cell) {
+        CellProxy cellProxy = new CellProxy(cell);
+        return cellProxy.toLocalDateTime();
+    }
 }
