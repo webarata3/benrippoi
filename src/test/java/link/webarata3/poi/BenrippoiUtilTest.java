@@ -635,4 +635,87 @@ public class BenrippoiUtilTest {
             BenrippoiUtil.cellToDouble(cell);
         }
     }
+
+    @RunWith(Theories.class)
+    public static class 正常系_cellToBoolean {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("F5", true),
+            new Fixture("G5", false)
+        };
+
+        static class Fixture {
+            String cellLabel;
+            boolean expected;
+
+            Fixture(String cellLabel, boolean expected) {
+                this.cellLabel = cellLabel;
+                this.expected = expected;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    ", expected=" + expected +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            assertThat(BenrippoiUtil.cellToBoolean(cell), is(fixture.expected));
+        }
+    }
+
+    @RunWith(Theories.class)
+    public static class 異常系_cellToBoolean {
+        @Rule
+        public TemporaryFolder tempFolder = new TemporaryFolder();
+        @Rule
+        public ExpectedException thrown = ExpectedException.none();
+
+        @DataPoints
+        public static Fixture[] PARAMs = {
+            new Fixture("B5"),
+            new Fixture("C5"),
+            new Fixture("D5"),
+            new Fixture("E5"),
+            new Fixture("K5")
+        };
+
+        static class Fixture {
+            String cellLabel;
+
+            Fixture(String cellLabel) {
+                this.cellLabel = cellLabel;
+            }
+
+            @Override
+            public String toString() {
+                return "Fixture{" +
+                    "cellLabel='" + cellLabel + '\'' +
+                    '}';
+            }
+        }
+
+        @Theory
+        public void test(Fixture fixture) throws Exception {
+            Sheet sheet = TestUtil.getSheet(tempFolder, "book1.xlsx");
+            assertThat(sheet, is(notNullValue()));
+
+            Cell cell = BenrippoiUtil.getCell(sheet, fixture.cellLabel);
+            assertThat(cell, is(notNullValue()));
+            thrown.expect(PoiIllegalAccessException.class);
+            BenrippoiUtil.cellToBoolean(cell);
+        }
+    }
 }
