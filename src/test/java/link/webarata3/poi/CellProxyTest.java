@@ -365,7 +365,7 @@ public class CellProxyTest {
     }
 
     @RunWith(Theories.class)
-    public static class 正常系_toLocalDate_日付 {
+    public static class 正常系_toLocalDate {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -401,7 +401,7 @@ public class CellProxyTest {
     }
 
     @RunWith(Theories.class)
-    public static class 異常_toLocalDate_日付 {
+    public static class 異常系_toLocalDate {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
         @Rule
@@ -444,7 +444,7 @@ public class CellProxyTest {
     }
 
     @RunWith(Theories.class)
-    public static class 正常系_toLocalTime_日付 {
+    public static class 正常系_toLocalTime {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -480,7 +480,7 @@ public class CellProxyTest {
     }
 
     @RunWith(Theories.class)
-    public static class 異常_toLocalTime_日付 {
+    public static class 異常系_toLocalTime {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
         @Rule
@@ -523,7 +523,7 @@ public class CellProxyTest {
     }
 
     @RunWith(Theories.class)
-    public static class 正常系_toLocalDateTime_日付 {
+    public static class 正常系_toLocalDateTime {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
 
@@ -559,7 +559,7 @@ public class CellProxyTest {
     }
 
     @RunWith(Theories.class)
-    public static class 異常_toLocalDateTime_日付 {
+    public static class 異常系_toLocalDateTime {
         @Rule
         public TemporaryFolder tempFolder = new TemporaryFolder();
         @Rule
