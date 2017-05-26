@@ -2,10 +2,12 @@ package link.webarata3.poi;
 
 import org.apache.poi.ss.usermodel.Workbook;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BenriWorkbook {
+public class BenriWorkbook implements Closeable {
     private Workbook wb;
 
     /**
@@ -16,6 +18,11 @@ public class BenriWorkbook {
     public BenriWorkbook(Workbook wb) {
         this.wb = wb;
         benriSheetMap = new HashMap<String, BenriSheet>();
+    }
+
+    @Override
+    public void close() throws IOException {
+        wb.close();
     }
 
     public BenriSheet sheet(String sheetName) {
