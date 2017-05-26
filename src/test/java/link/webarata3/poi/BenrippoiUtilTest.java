@@ -31,7 +31,8 @@ public class BenrippoiUtilTest {
 
         @Test
         public void openFileNameTest() throws Exception {
-            Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+            File file  = TestUtil.getTempWorkbookFile(tempFolder, "book1.xlsx");
+            Workbook wb = BenrippoiUtil.open(file.getCanonicalPath());
             assertThat(wb, is(notNullValue()));
             wb.close();
         }
