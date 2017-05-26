@@ -1,5 +1,6 @@
 package link.webarata3.poi;
 
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.Closeable;
@@ -43,5 +44,12 @@ public class BenriWorkbook implements Closeable {
     public BenriSheet sheetAt(int index) {
         String sheetName = wb.getSheetAt(index).getSheetName();
         return sheet(sheetName);
+    }
+
+    public BenriSheet createSheet(String sheetName) {
+        Sheet sheet = wb.createSheet(sheetName);
+        BenriSheet benriSheet = new BenriSheet(sheet);
+        benriSheetMap.put(sheetName, benriSheet);
+        return benriSheet;
     }
 }

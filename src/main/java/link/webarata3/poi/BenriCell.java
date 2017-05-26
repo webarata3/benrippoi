@@ -1,7 +1,10 @@
 package link.webarata3.poi;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -71,16 +74,36 @@ public class BenriCell {
         ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zone);
 
         Instant instant = zonedDateTime.toInstant();
-        Date date = Date.from(instant);
-
-        return date;
+        return Date.from(instant);
     }
 
     public void set(LocalDate value) {
+        Workbook wb = cell.getSheet().getWorkbook();
         cell.setCellValue(localDataTimeToDate(value.atStartOfDay()));
+        CreationHelper createHelper = wb.getCreationHelper();
+        CellStyle cellStyle = wb.createCellStyle();
+        short style = createHelper.createDataFormat().getFormat("yyyy/MM/dd");
+        cellStyle.setDataFormat(style);
+        cell.setCellStyle(cellStyle);
     }
 
     public void set(LocalTime value) {
-        cell.setCellValue(localDataTimeToDate(value.atDate(LocalDate.of(1900, 1,0))));
+        Workbook wb = cell.getSheet().getWorkbook();
+        cell.setCellValue(localDataTimeToDate(value.atDate(LocalDate.of(1900, 1, 1))));
+        CreationHelper createHelper = wb.getCreationHelper();
+        CellStyle cellStyle = wb.createCellStyle();
+        short style = createHelper.createDataFormat().getFormat("HH:mm:ss");
+        cellStyle.setDataFormat(style);
+        cell.setCellStyle(cellStyle);
+    }
+
+    public void set(LocalDateTime value) {
+        Workbook wb = cell.getSheet().getWorkbook();
+        cell.setCellValue(localDataTimeToDate(value));
+        CreationHelper createHelper = wb.getCreationHelper();
+        CellStyle cellStyle = wb.createCellStyle();
+        short style = createHelper.createDataFormat().getFormat("yyyy/MM/dd HH:mm:ss");
+        cellStyle.setDataFormat(style);
+        cell.setCellStyle(cellStyle);
     }
 }

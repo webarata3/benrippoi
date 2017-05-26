@@ -94,7 +94,7 @@ public class BenrippoiUtil {
      * @return Cell
      */
     public static Cell getCell(Sheet sheet, int x, int y) {
-        Row row = sheet.getRow(y);
+        Row row = getRow(sheet, y);
         Cell cell = row.getCell(x);
         if (cell != null) {
             return cell;

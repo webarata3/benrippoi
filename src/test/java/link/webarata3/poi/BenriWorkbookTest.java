@@ -18,16 +18,16 @@ public class BenriWorkbookTest {
     @Test
     public void 正常系_BenriWorkbook() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-        BenriWorkbook wbb = new BenriWorkbook(wb);
-        assertThat(wbb, is(notNullValue()));
-        wbb.close();
+        BenriWorkbook bwb = new BenriWorkbook(wb);
+        assertThat(bwb, is(notNullValue()));
+        bwb.close();
     }
 
     @Test
     public void 正常系_sheet() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-        try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
-            BenriSheet sheet = wbb.sheet("Sheet1");
+        try (BenriWorkbook bwb = new BenriWorkbook(wb)) {
+            BenriSheet sheet = bwb.sheet("Sheet1");
             assertThat(sheet, is(notNullValue()));
         }
     }
@@ -35,8 +35,17 @@ public class BenriWorkbookTest {
     @Test
     public void 正常系_sheetAt() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
-        try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
-            BenriSheet sheet = wbb.sheetAt(0);
+        try (BenriWorkbook bwb = new BenriWorkbook(wb)) {
+            BenriSheet sheet = bwb.sheetAt(0);
+            assertThat(sheet, is(notNullValue()));
+        }
+    }
+
+    @Test
+    public void 正常系_createSheet() throws Exception {
+        Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
+        try (BenriWorkbook bwb = new BenriWorkbook(wb)) {
+            BenriSheet sheet = bwb.createSheet("あいうえお");
             assertThat(sheet, is(notNullValue()));
         }
     }
