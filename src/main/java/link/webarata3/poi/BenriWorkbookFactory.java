@@ -3,6 +3,7 @@ package link.webarata3.poi;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,6 +18,11 @@ public class BenriWorkbookFactory {
 
     public static BenriWorkbook create(InputStream is) throws IOException, InvalidFormatException {
         Workbook wb = BenrippoiUtil.open(is);
+        return new BenriWorkbook(wb);
+    }
+
+    public static BenriWorkbook createBlank() {
+        Workbook wb = new XSSFWorkbook();
         return new BenriWorkbook(wb);
     }
 }

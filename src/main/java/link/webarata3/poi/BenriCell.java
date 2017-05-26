@@ -3,9 +3,13 @@ package link.webarata3.poi;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 public class BenriCell {
     private Cell cell;
@@ -44,5 +48,39 @@ public class BenriCell {
 
     public LocalDateTime toLocalDateTime() {
         return BenrippoiUtil.cellToLocalDateTime(cell);
+    }
+
+    public void set(String value) {
+        cell.setCellValue(value);
+    }
+
+    public void set(int value) {
+        cell.setCellValue(value);
+    }
+
+    public void set(double value) {
+        cell.setCellValue(value);
+    }
+
+    public void set(boolean value) {
+        cell.setCellValue(value);
+    }
+
+    private Date localDataTimeToDate(LocalDateTime localDateTime) {
+        ZoneId zone = ZoneId.systemDefault();
+        ZonedDateTime zonedDateTime = ZonedDateTime.of(localDateTime, zone);
+
+        Instant instant = zonedDateTime.toInstant();
+        Date date = Date.from(instant);
+
+        return date;
+    }
+
+    public void set(LocalDate value) {
+        cell.setCellValue(localDataTimeToDate(value.atStartOfDay()));
+    }
+
+    public void set(LocalTime value) {
+        cell.setCellValue(localDataTimeToDate(value.atDate(LocalDate.of(1900, 1,0))));
     }
 }

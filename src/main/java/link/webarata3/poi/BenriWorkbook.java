@@ -4,6 +4,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +26,14 @@ public class BenriWorkbook implements Closeable {
     @Override
     public void close() throws IOException {
         wb.close();
+    }
+
+    public void write(String fileName) throws IOException {
+        wb.write(Files.newOutputStream(Paths.get(fileName)));
+    }
+
+    public void write(OutputStream os) throws IOException {
+        wb.write(os);
     }
 
     public BenriSheet sheet(String sheetName) {
