@@ -5,6 +5,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
@@ -36,5 +39,19 @@ public class BenriWorkbookTest {
             BenriSheet sheet = wbb.sheetAt(0);
             assertThat(sheet, is(notNullValue()));
         }
+    }
+
+    @Test
+    public void 正常系_save_fileName() throws Exception {
+        BenriWorkbook bwb = BenriWorkbookFactory.createBlank();
+        assertThat(bwb, is(notNullValue()));
+        bwb.write(Paths.get(tempFolder.getRoot().getCanonicalPath(), "test.xlsx").toFile().getCanonicalPath());
+    }
+
+    @Test
+    public void 正常系_save_outputStream() throws Exception {
+        BenriWorkbook bwb = BenriWorkbookFactory.createBlank();
+        assertThat(bwb, is(notNullValue()));
+        bwb.write(Files.newOutputStream(Paths.get(tempFolder.getRoot().getCanonicalPath(), "test.xlsx")));
     }
 }
