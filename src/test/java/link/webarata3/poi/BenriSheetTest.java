@@ -3,6 +3,7 @@ package link.webarata3.poi;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import static org.hamcrest.Matchers.*;
@@ -12,6 +13,7 @@ public class BenriSheetTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
+    @Test
     public void 正常系_sheet() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -20,6 +22,7 @@ public class BenriSheetTest {
         }
     }
 
+    @Test
     public void 正常系_cellIndex() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -30,6 +33,7 @@ public class BenriSheetTest {
         }
     }
 
+    @Test
     public void 正常系_cellLabel() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {

@@ -2,6 +2,7 @@ package link.webarata3.poi;
 
 import org.apache.poi.ss.usermodel.Workbook;
 import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public class BenriCellTest {
     @Rule
     public TemporaryFolder tempFolder = new TemporaryFolder();
 
+    @Test
     public void 正常系_toStr() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -23,6 +25,7 @@ public class BenriCellTest {
         }
     }
 
+    @Test
     public void 正常系_toInt() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -31,6 +34,7 @@ public class BenriCellTest {
         }
     }
 
+    @Test
     public void 正常系_toDouble() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -39,6 +43,7 @@ public class BenriCellTest {
         }
     }
 
+    @Test
     public void 正常系_toBoolean() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -46,6 +51,8 @@ public class BenriCellTest {
             assertThat(actual, is(true));
         }
     }
+
+    @Test
     public void 正常系_toLocalDate() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -53,6 +60,8 @@ public class BenriCellTest {
             assertThat(actual, is(true));
         }
     }
+
+    @Test
     public void 正常系_toLocalTime() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
@@ -60,6 +69,8 @@ public class BenriCellTest {
             assertThat(actual, is(true));
         }
     }
+
+    @Test
     public void 正常系_toLocalDateTime() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
