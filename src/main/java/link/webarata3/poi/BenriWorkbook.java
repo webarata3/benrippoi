@@ -17,7 +17,7 @@ public class BenriWorkbook implements Closeable {
 
     public BenriWorkbook(Workbook wb) {
         this.wb = wb;
-        benriSheetMap = new HashMap<String, BenriSheet>();
+        benriSheetMap = new HashMap<>();
     }
 
     @Override

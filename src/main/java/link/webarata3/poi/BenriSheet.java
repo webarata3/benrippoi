@@ -9,10 +9,6 @@ public class BenriSheet {
         this.sheet = sheet;
     }
 
-    public static BenriSheet create(Sheet sheet) {
-        return new BenriSheet(sheet);
-    }
-
     public BenriCell cell(int x, int y) {
         return new BenriCell(sheet, x, y);
     }
