@@ -29,7 +29,7 @@ public class BenriCellTest {
     public void 正常系_toInt() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
-            int actual = wbb.sheet("Sheet1").cell("C2").toInt();
+            int actual = wbb.sheet("Sheet1").cell("C3").toInt();
             assertThat(actual, is(123));
         }
     }
@@ -38,8 +38,8 @@ public class BenriCellTest {
     public void 正常系_toDouble() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
-            double actual = wbb.sheet("Sheet1").cell("D2").toDouble();
-            assertThat(actual, is(closeTo(150.15, 0.000001)));
+            double actual = wbb.sheet("Sheet1").cell("D4").toDouble();
+            assertThat(actual, is(closeTo(150.51, 0.0000001)));
         }
     }
 
@@ -47,7 +47,7 @@ public class BenriCellTest {
     public void 正常系_toBoolean() throws Exception {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
-            boolean actual = wbb.sheet("Sheet1").cell("E2").toBoolean();
+            boolean actual = wbb.sheet("Sheet1").cell("F5").toBoolean();
             assertThat(actual, is(true));
         }
     }
@@ -57,7 +57,7 @@ public class BenriCellTest {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
             LocalDate actual = wbb.sheet("Sheet1").cell("E6").toLocalDate();
-            assertThat(actual, is(true));
+            assertThat(actual, is(LocalDate.of(2015,12,1)));
         }
     }
 
@@ -66,7 +66,7 @@ public class BenriCellTest {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
             LocalTime actual = wbb.sheet("Sheet1").cell("E7").toLocalTime();
-            assertThat(actual, is(true));
+            assertThat(actual, is(LocalTime.of(10,10,30)));
         }
     }
 
@@ -75,7 +75,7 @@ public class BenriCellTest {
         Workbook wb = TestUtil.getTempWorkbook(tempFolder, "book1.xlsx");
         try (BenriWorkbook wbb = new BenriWorkbook(wb)) {
             LocalDateTime actual = wbb.sheet("Sheet1").cell("E8").toLocalDateTime();
-            assertThat(actual, is(true));
+            assertThat(actual, is(LocalDateTime.of(2015,12,1,10,10,30)));
         }
     }
 }

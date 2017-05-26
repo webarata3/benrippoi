@@ -159,7 +159,7 @@ public class CellProxy {
             case BOOLEAN:
                 return getBooleanCellValue();
             default:
-                throw new PoiIllegalAccessException("cellはdoubleに変換できません");
+                throw new PoiIllegalAccessException("cellはbooleanに変換できません");
         }
     }
 
