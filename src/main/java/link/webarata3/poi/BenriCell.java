@@ -82,7 +82,7 @@ public class BenriCell {
         cell.setCellValue(localDataTimeToDate(value.atStartOfDay()));
         CreationHelper createHelper = wb.getCreationHelper();
         CellStyle cellStyle = wb.createCellStyle();
-        short style = createHelper.createDataFormat().getFormat("yyyy/MM/dd");
+        short style = createHelper.createDataFormat().getFormat("yyyy/mm/dd");
         cellStyle.setDataFormat(style);
         cell.setCellStyle(cellStyle);
     }
@@ -92,7 +92,7 @@ public class BenriCell {
         cell.setCellValue(localDataTimeToDate(value.atDate(LocalDate.of(1900, 1, 1))));
         CreationHelper createHelper = wb.getCreationHelper();
         CellStyle cellStyle = wb.createCellStyle();
-        short style = createHelper.createDataFormat().getFormat("HH:mm:ss");
+        short style = createHelper.createDataFormat().getFormat("hh:mm:ss");
         cellStyle.setDataFormat(style);
         cell.setCellStyle(cellStyle);
     }
@@ -102,7 +102,7 @@ public class BenriCell {
         cell.setCellValue(localDataTimeToDate(value));
         CreationHelper createHelper = wb.getCreationHelper();
         CellStyle cellStyle = wb.createCellStyle();
-        short style = createHelper.createDataFormat().getFormat("yyyy/MM/dd HH:mm:ss");
+        short style = createHelper.createDataFormat().getFormat("yyyy/mm/dd hh:mm:ss");
         cellStyle.setDataFormat(style);
         cell.setCellStyle(cellStyle);
     }
