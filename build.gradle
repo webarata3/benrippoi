@@ -21,6 +21,8 @@ jar {
     baseName = 'benrippoi'
 }
 
+apply plugin: 'maven'
+
 /* Source作成用のタスク */
 task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
@@ -36,6 +38,16 @@ artifacts {
     archives jar
     archives sourcesJar
     archives javadocJar
+}
+
+def repo = new File(rootDir, "build/repository")
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository url: "file://${repo.absolutePath}"
+        }
+    }
 }
 
 // JUnit
