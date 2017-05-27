@@ -77,33 +77,26 @@ public class BenriCell {
         return Date.from(instant);
     }
 
-    public void set(LocalDate value) {
+    private void setDateFormat(String format) {
         Workbook wb = cell.getSheet().getWorkbook();
-        cell.setCellValue(localDataTimeToDate(value.atStartOfDay()));
         CreationHelper createHelper = wb.getCreationHelper();
         CellStyle cellStyle = wb.createCellStyle();
-        short style = createHelper.createDataFormat().getFormat("yyyy/mm/dd");
-        cellStyle.setDataFormat(style);
+        cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(format));
         cell.setCellStyle(cellStyle);
+    }
+
+    public void set(LocalDate value) {
+        setDateFormat("yyyy/mm/dd");
+        cell.setCellValue(localDataTimeToDate(value.atStartOfDay()));
     }
 
     public void set(LocalTime value) {
-        Workbook wb = cell.getSheet().getWorkbook();
+        setDateFormat("hh:mm:ss");
         cell.setCellValue(localDataTimeToDate(value.atDate(LocalDate.of(1900, 1, 1))));
-        CreationHelper createHelper = wb.getCreationHelper();
-        CellStyle cellStyle = wb.createCellStyle();
-        short style = createHelper.createDataFormat().getFormat("hh:mm:ss");
-        cellStyle.setDataFormat(style);
-        cell.setCellStyle(cellStyle);
     }
 
     public void set(LocalDateTime value) {
-        Workbook wb = cell.getSheet().getWorkbook();
+        setDateFormat("yyyy/mm/dd hh:mm:ss");
         cell.setCellValue(localDataTimeToDate(value));
-        CreationHelper createHelper = wb.getCreationHelper();
-        CellStyle cellStyle = wb.createCellStyle();
-        short style = createHelper.createDataFormat().getFormat("yyyy/mm/dd hh:mm:ss");
-        cellStyle.setDataFormat(style);
-        cell.setCellStyle(cellStyle);
     }
 }
