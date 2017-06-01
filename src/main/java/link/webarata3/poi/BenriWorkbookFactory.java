@@ -43,7 +43,7 @@ public class BenriWorkbookFactory {
     /**
      * 新規BenriWorkbookの作成
      *
-     * @return 新規BenriWorkbook
+     * @return 新規BenriWorkboo
      */
     public static BenriWorkbook createBlank() {
         Workbook wb = new XSSFWorkbook();

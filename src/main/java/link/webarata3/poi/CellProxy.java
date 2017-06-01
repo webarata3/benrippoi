@@ -14,10 +14,18 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+/**
+ * CellとCellValueのProxy
+ */
 public class CellProxy {
     private Cell cell;
     private CellValue cellValue;
 
+    /**
+     * コンストラクタ。計算式の場合には、CellValueを内部に保持する
+     *
+     * @param cell 対象のセル
+     */
     public CellProxy(Cell cell) {
         this.cell = cell;
         if (cell.getCellTypeEnum() == CellType.FORMULA) {
@@ -38,11 +46,11 @@ public class CellProxy {
     }
 
     private double getNumericCellValue() {
-        return cellValue == null ?cell.getNumericCellValue(): cellValue.getNumberValue();
+        return cellValue == null ? cell.getNumericCellValue() : cellValue.getNumberValue();
     }
 
     private boolean getBooleanCellValue() {
-        return cellValue == null ?  cell.getBooleanCellValue() : cellValue.getBooleanValue();
+        return cellValue == null ? cell.getBooleanCellValue() : cellValue.getBooleanValue();
     }
 
     private boolean isDateType() {
@@ -61,12 +69,6 @@ public class CellProxy {
         }
     }
 
-    /**
-     * 数値の正規化
-     *
-     * @param numeric 正規化する数値
-     * @return 正規化した数値
-     */
     private String normalizeNumericString(double numeric) {
         // 44.0のような数値を44として取得するために、入力された数値と小数点以下を切り捨てた数値が
         // 一致した場合には、intにキャストして、小数点以下が表示されないようにしている
@@ -105,6 +107,12 @@ public class CellProxy {
         return evaluator.evaluate(cell);
     }
 
+    /**
+     * Cellの値をStringとして取得<br>
+     * 日付型としては現在取得できない
+     *
+     * @return StringとしてのCellの値
+     */
     public String toStr() {
         switch (getCellTypeEnum()) {
             case STRING:
@@ -124,6 +132,11 @@ public class CellProxy {
         }
     }
 
+    /**
+     * Cellの値をintとして取得
+     *
+     * @return intとしてのCellの値
+     */
     public int toInt() {
         switch (getCellTypeEnum()) {
             case STRING:
@@ -139,6 +152,11 @@ public class CellProxy {
         }
     }
 
+    /**
+     * Cellの値をdoubleとして取得
+     *
+     * @return doubleとしてのCellの値
+     */
     public double toDouble() {
         switch (getCellTypeEnum()) {
             case STRING:
@@ -154,6 +172,11 @@ public class CellProxy {
         }
     }
 
+    /**
+     * Cellの値をBooleanとして取得
+     *
+     * @return BooleanとしてのCellの値
+     */
     public boolean toBoolean() {
         switch (getCellTypeEnum()) {
             case BOOLEAN:
@@ -163,6 +186,11 @@ public class CellProxy {
         }
     }
 
+    /**
+     * Cellの値をLocalDateとして取得
+     *
+     * @return LocalDateとしてのCellの値
+     */
     public LocalDate toLocalDate() {
         if (isDateType()) {
             Date date = cell.getDateCellValue();
@@ -172,6 +200,11 @@ public class CellProxy {
         }
     }
 
+    /**
+     * Cellの値をLocalTimeとして取得
+     *
+     * @return LocalTimeとしてのCellの値
+     */
     public LocalTime toLocalTime() {
         if (isDateType()) {
             Date date = cell.getDateCellValue();
@@ -181,6 +214,11 @@ public class CellProxy {
         }
     }
 
+    /**
+     * Cellの値をLocalDateTimeとして取得
+     *
+     * @return LocalDateTimeとしてのCellの値
+     */
     public LocalDateTime toLocalDateTime() {
         if (isDateType()) {
             Date date = cell.getDateCellValue();
